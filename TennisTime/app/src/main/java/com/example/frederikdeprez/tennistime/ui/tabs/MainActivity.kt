@@ -1,7 +1,8 @@
-package com.example.frederikdeprez.tennistime
+package com.example.frederikdeprez.tennistime.ui.tabs
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.frederikdeprez.tennistime.R
 
 class MainActivity : AppCompatActivity() {
 

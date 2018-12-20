@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TennisTime</string>
+    <string name="player">player</string>
+    <string name="match">match</string>
+    <string name="search">search</string>
+
 </resources>
