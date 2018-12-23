@@ -6,11 +6,15 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.frederikdeprez.tennistime.R
 import com.example.frederikdeprez.tennistime.ui.match.MatchFragment
+import com.example.frederikdeprez.tennistime.ui.player.PlayerAvailabilityFragment
+import com.example.frederikdeprez.tennistime.ui.player.PlayerContactFragment
 import com.example.frederikdeprez.tennistime.ui.player.PlayerFragment
 import com.example.frederikdeprez.tennistime.ui.tennisclubs.TennisclubsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), PlayerFragment.OnPlayerFragmentListener,
+                                            PlayerAvailabilityFragment.OnPlayerAvailabilityFragmentListener,
+                                            PlayerContactFragment.OnPlayerContactFragmentListener,
                                             TennisclubsFragment.OnTennisclubsFragmentListener,
                                             MatchFragment.OnMatchFragmentListener{
 
@@ -60,6 +64,14 @@ class MainActivity : AppCompatActivity(), PlayerFragment.OnPlayerFragmentListene
     }
 
     override fun OnMatchFragmentListener(uri: Uri) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun OnPlayerAvailabilityFragmentListener(uri: Uri) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun OnPlayerContactFragmentListener(uri: Uri) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

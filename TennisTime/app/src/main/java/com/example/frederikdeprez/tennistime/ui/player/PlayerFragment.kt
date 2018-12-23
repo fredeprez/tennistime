@@ -3,12 +3,16 @@ package com.example.frederikdeprez.tennistime.ui.player
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentPagerAdapter
 
 import com.example.frederikdeprez.tennistime.R
+import kotlinx.android.synthetic.main.fragment_player.*
+
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
@@ -20,6 +24,7 @@ import com.example.frederikdeprez.tennistime.R
  */
 class PlayerFragment : Fragment() {
     private var listener: OnPlayerFragmentListener? = null
+    private val tabTitles = arrayListOf<String>("Available", "Contact")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +34,33 @@ class PlayerFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_player, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        player_viewpager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
+            override fun getItem(position: Int): Fragment {
+                when(position) {
+                    0 -> return PlayerAvailabilityFragment.newInstance()
+                    1 -> return PlayerContactFragment.newInstance()
+                    else -> {
+                        return PlayerAvailabilityFragment.newInstance()
+                    }
+                }
+            }
+            override fun getCount(): Int {
+                return 2
+            }
+
+            override fun getPageTitle(position: Int): CharSequence? {
+                when(position) {
+                    0 -> return tabTitles[position]
+                    1 -> return tabTitles[position]
+                }
+                return tabTitles[0]
+            }
+        }
+        tabs.setupWithViewPager(player_viewpager)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
