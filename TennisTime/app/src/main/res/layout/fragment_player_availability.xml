@@ -6,7 +6,7 @@
     tools:context=".ui.player.PlayerAvailabilityFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dates_list"
+        android:id="@+id/dates_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
