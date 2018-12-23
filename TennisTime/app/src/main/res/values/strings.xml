@@ -14,5 +14,9 @@
     <string name="tennisclub">tennisclub</string>
     <string name="vtvnumber">vtv_number</string>
     <string name="ranking">ranking</string>
+    <string name="start">start</string>
+    <string name="einde">einde</string>
+    <string name="start_date">start date</string>
+    <string name="end_date">end date</string>
 
 </resources>

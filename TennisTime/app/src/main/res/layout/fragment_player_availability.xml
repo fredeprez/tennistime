@@ -5,10 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.player.PlayerAvailabilityFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dates_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/available" />
+        android:layout_margin="16dp"
+        tools:listitem="@layout/fragment_player_date_item">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/action_addperson"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_add_event"/>
 
 </FrameLayout>
