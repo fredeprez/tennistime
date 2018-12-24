@@ -7,8 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.example.frederikdeprez.tennistime.R
+import kotlinx.android.synthetic.main.fragment_match.*
+import kotlinx.android.synthetic.main.fragment_match_item.view.*
+
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
@@ -20,6 +25,7 @@ import com.example.frederikdeprez.tennistime.R
  */
 class MatchFragment : Fragment() {
     private var listener: OnMatchFragmentListener? = null
+    private var matches: List<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +35,22 @@ class MatchFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_match, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        matches = createMatches()
+        matches_recyclerview.adapter = MatchesRecyclerViewAdapter(matches!!)
+        matches_recyclerview.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun createMatches() : List<String> {
+        val matchesList = mutableListOf<String>()
+        matchesList.add("Roger Federer") // Todo veranderen naar player eenmaal model er is
+        matchesList.add("Nadal")
+        matchesList.add("Djoko")
+        matchesList.add("Wawrinka")
+        return matchesList
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -64,6 +86,25 @@ class MatchFragment : Fragment() {
     interface OnMatchFragmentListener {
         // TODO: Update argument type and name
         fun OnMatchFragmentListener(uri: Uri)
+    }
+
+    class MatchesRecyclerViewAdapter(private val matches: List<String>): RecyclerView.Adapter<MatchesRecyclerViewAdapter.ViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesRecyclerViewAdapter.ViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_match_item, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun getItemCount(): Int {
+            return matches.size
+        }
+
+        override fun onBindViewHolder(holder: MatchesRecyclerViewAdapter.ViewHolder, position: Int) {
+            holder.matchNameTextView.text = matches[position]
+        }
+
+        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val matchNameTextView = view.match_name_textView
+        }
     }
 
     companion object {
