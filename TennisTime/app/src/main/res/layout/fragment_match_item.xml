@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- http://anjithsasindran.in/blog/2015/08/15/material-sharing-card/ -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/match_frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/match_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/tennisplayer" />
+
+            <LinearLayout
+                android:id="@+id/match_linearView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/tennisyellow"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/match_layoutButtons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:background="@color/middleblue"
+                        android:text="@string/call"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:background="@color/middleblue"
+                        android:text="@string/mail"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/match_frameLayout"
+            android:fontFamily="sans-serif-light"
+            android:lineSpacingExtra="@dimen/dimen_4dp"
+            android:paddingBottom="@dimen/dimen_24dp"
+            android:paddingLeft="@dimen/dimen_24dp"
+            android:paddingRight="@dimen/dimen_24dp"
+            android:paddingTop="@dimen/dimen_48dp"
+            android:text="name:"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/dimen_16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView"
+            android:fontFamily="sans-serif-medium"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/dimen_24dp"
+            android:paddingRight="@dimen/dimen_24dp"
+            android:paddingTop="@dimen/dimen_24dp"
+            android:text="ranking"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/dimen_16sp"
+            android:textStyle="italic" />
+
+
+        <ImageButton
+            android:id="@+id/launchTwitterAnimation"
+            android:layout_width="@dimen/dimen_56dp"
+            android:layout_height="@dimen/dimen_56dp"
+            android:layout_alignBottom="@id/match_frameLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="-28dp"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:adjustViewBounds="true"
+            android:background="@drawable/rounded_button"
+            android:elevation="@dimen/dimen_4dp"
+            android:onClick="launchTwitter"
+            android:src="@drawable/ic_more" />
+
+    </RelativeLayout>
+
+
+
+</com.google.android.material.card.MaterialCardView>
