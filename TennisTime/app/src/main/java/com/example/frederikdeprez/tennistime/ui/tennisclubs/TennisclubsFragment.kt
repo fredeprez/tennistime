@@ -7,8 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.example.frederikdeprez.tennistime.R
+import kotlinx.android.synthetic.main.fragment_tennisclub_item.view.*
+import kotlinx.android.synthetic.main.fragment_tennisclubs.*
+
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
@@ -20,6 +25,7 @@ import com.example.frederikdeprez.tennistime.R
  */
 class TennisclubsFragment : Fragment() {
     private var listener: OnTennisclubsFragmentListener? = null
+    private var tennisclubs: List<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +35,26 @@ class TennisclubsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tennisclubs, container, false)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        tennisclubs = createTennisclubs()
+        tennisclubs_recyclerview.adapter = TennisclubsRecyclerViewAdapter(tennisclubs!!)
+        tennisclubs_recyclerview.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun createTennisclubs(): List<String> {
+        val tennisclubsList = mutableListOf<String>()
+        tennisclubsList.add("Tennis2000")
+        tennisclubsList.add("T.C. Beukenhof")
+        tennisclubsList.add("T.C. De Snas")
+        tennisclubsList.add("De Montil")
+        tennisclubsList.add("Roland Garros")
+        tennisclubsList.add("Wimbledon")
+        tennisclubsList.add("Australian Open")
+        tennisclubsList.add("US Open")
+        return tennisclubsList
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -64,6 +90,25 @@ class TennisclubsFragment : Fragment() {
     interface OnTennisclubsFragmentListener {
         // TODO: Update argument type and name
         fun OnTennisclubsFragmentListener(uri: Uri)
+    }
+
+    class TennisclubsRecyclerViewAdapter(private val tennisclubs: List<String>): RecyclerView.Adapter<TennisclubsRecyclerViewAdapter.ViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TennisclubsRecyclerViewAdapter.ViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_tennisclub_item, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun getItemCount(): Int {
+            return tennisclubs.size
+        }
+
+        override fun onBindViewHolder(holder: TennisclubsRecyclerViewAdapter.ViewHolder, position: Int) {
+            holder.tennisclub_text_view.text = tennisclubs[position]
+        }
+
+        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val tennisclub_text_view = view.tennisclub_text_view
+        }
     }
 
     companion object {
