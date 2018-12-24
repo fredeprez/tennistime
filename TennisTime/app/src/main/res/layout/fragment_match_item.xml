@@ -2,7 +2,7 @@
 <!-- http://anjithsasindran.in/blog/2015/08/15/material-sharing-card/ -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true">
 
@@ -94,7 +94,7 @@
 
 
         <ImageButton
-            android:id="@+id/launchTwitterAnimation"
+            android:id="@+id/launch_contact_animation"
             android:layout_width="@dimen/dimen_56dp"
             android:layout_height="@dimen/dimen_56dp"
             android:layout_alignBottom="@id/match_frameLayout"
@@ -104,7 +104,7 @@
             android:adjustViewBounds="true"
             android:background="@drawable/rounded_button"
             android:elevation="@dimen/dimen_4dp"
-            android:onClick="launchTwitter"
+            android:onClick="launchContacts"
             android:src="@drawable/ic_more" />
 
     </RelativeLayout>
