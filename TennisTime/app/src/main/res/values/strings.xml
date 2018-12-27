@@ -18,5 +18,6 @@
     <string name="einde">einde</string>
     <string name="start_date">start date</string>
     <string name="end_date">end date</string>
+    <string name="call">call</string>
 
 </resources>
