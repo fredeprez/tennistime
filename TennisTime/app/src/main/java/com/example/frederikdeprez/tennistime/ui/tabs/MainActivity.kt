@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.frederikdeprez.tennistime.Application
 import com.example.frederikdeprez.tennistime.R
 import com.example.frederikdeprez.tennistime.ui.match.MatchFragment
 import com.example.frederikdeprez.tennistime.ui.player.PlayerAvailabilityFragment
