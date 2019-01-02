@@ -2,6 +2,7 @@ package com.example.frederikdeprez.tennistime.data.repositories
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.example.frederikdeprez.tennistime.data.network.API
 import javax.inject.Inject
 
 /**
@@ -10,6 +11,9 @@ import javax.inject.Inject
  * [CategoryRepository] [ExpenseRepository] and [StatisticRepository] extend this repository
  */
 abstract class InjectableRepository {
+
+    @Inject
+    lateinit var api: API
 
     @Inject
     lateinit var context: Context
