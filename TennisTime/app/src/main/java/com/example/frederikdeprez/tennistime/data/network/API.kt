@@ -3,9 +3,7 @@ package com.example.frederikdeprez.tennistime.data.network
 import com.example.frederikdeprez.tennistime.data.Player
 import com.example.frederikdeprez.tennistime.data.Tennisclub
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 /**
  * [API] provides an interface to retrieve information from the backend server
@@ -25,23 +23,23 @@ interface API {
      *  Get all [Player] from specific [Tennisclub]
      */
     @GET("api/tennisclub/{tennisclub_id}/player")
-    fun getAllPlayersFromTennisclub(): Single<List<Player>>
+    fun getAllPlayersFromTennisclub(@Path("tennisclub_id") tennisclub_id: Long): Single<List<Player>>
 
     /**
      * Get specific [Player] from [Tennisclub]
      */
     @GET("api/tennisclub/{tennisclub_id}/player/{player_id}")
-    fun getPlayerFromTennisclub(): Single<Player>
+    fun getPlayerFromTennisclub(@Path("tennisclub_id") tennisclub_id: Long, @Path("player_id") player_id: Long): Single<Player>
 
     /**
      * Register new [Player] in a [Tennisclub]
      */
     @POST("api/tennisclub/{tennisclub_id}/player")
-    fun registerNewPlayerInTennisclub(): Single<Player>
+    fun registerNewPlayerInTennisclub(@Path("tennisclub_id") tennisclub_id: Long, @Body player: Player): Single<Player>
 
     /**
      * Change properties from specific (id) player in a specific tennisclub
      */
-    @PUT("api/tennisclub/{tennisclub_id}/player/{playerid}")
-    fun changePlayer(): Single<Player>
+    @PUT("api/tennisclub/{tennisclub_id}/player/{player_id}")
+    fun changePlayer(@Path("tennisclub_id") tennisclub_id: Long, @Path("player_id") player_id: Long, @Body player: Player): Single<Player>
 }
