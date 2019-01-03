@@ -22,24 +22,24 @@ interface API {
     /**
      *  Get all [Player] from specific [Tennisclub]
      */
-    @GET("api/tennisclub/{tennisclub_id}/player")
-    fun getAllPlayersFromTennisclub(@Path("tennisclub_id") tennisclub_id: Long): Single<List<Player>>
+    @GET("api/tennisclub/{tennisclubId}/player")
+    fun getAllPlayersFromTennisclub(@Path("tennisclubId") tennisclubId: Long): Single<List<Player>>
 
     /**
      * Get specific [Player] from [Tennisclub]
      */
-    @GET("api/tennisclub/{tennisclub_id}/player/{player_id}")
-    fun getPlayerFromTennisclub(@Path("tennisclub_id") tennisclub_id: Long, @Path("player_id") player_id: Long): Single<Player>
+    @GET("api/tennisclub/{tennisclubId}/player/{playerId}")
+    fun getPlayerFromTennisclub(@Path("tennisclubId") tennisclubId: Long, @Path("playerId") playerId: Long): Single<Player>
 
     /**
      * Register new [Player] in a [Tennisclub]
      */
-    @POST("api/tennisclub/{tennisclub_id}/player")
-    fun registerNewPlayerInTennisclub(@Path("tennisclub_id") tennisclub_id: Long, @Body player: Player): Single<Player>
+    @POST("api/tennisclub/{tennisclubId}/player")
+    fun registerNewPlayerInTennisclub(@Path("tennisclubId") tennisclubId: Long, @Body player: Player): Single<Player>
 
     /**
      * Change properties from specific (id) player in a specific tennisclub
      */
-    @PUT("api/tennisclub/{tennisclub_id}/player/{player_id}")
-    fun changePlayer(@Path("tennisclub_id") tennisclub_id: Long, @Path("player_id") player_id: Long, @Body player: Player): Single<Player>
+    @PUT("api/tennisclub/{tennisclubId}/player/{playerId}")
+    fun changePlayer(@Path("tennisclubId") tennisclubId: Long, @Path("playerId") playerId: Long, @Body player: Player): Single<Player>
 }
