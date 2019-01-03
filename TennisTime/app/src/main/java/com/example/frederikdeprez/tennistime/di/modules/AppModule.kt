@@ -9,6 +9,9 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+/**
+ * Define all injectables related to the base application
+ */
 @Module
 class AppModule(private val application: Application) {
 
