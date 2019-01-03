@@ -8,6 +8,9 @@ import dagger.Provides
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
+/**
+ * Define all injectables related to network and data
+ */
 @Module
 class DataModule {
 
@@ -20,12 +23,18 @@ class DataModule {
         return retrofit.create(API::class.java)
     }
 
+    /**
+     * Provide a singleton of [TennisclubRepository]
+     */
     @Singleton
     @Provides
     fun provideTennisclubRepository(): TennisclubRepository {
         return TennisclubRepository()
     }
 
+    /**
+     * Provide a singleton of [PlayerRepository]
+     */
     @Singleton
     @Provides
     fun providePlayerRepository(): PlayerRepository {

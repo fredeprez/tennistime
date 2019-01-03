@@ -1,5 +1,6 @@
 package com.example.frederikdeprez.tennistime.di.modules
 
+import com.example.frederikdeprez.tennistime.util.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -9,6 +10,9 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**
+ * Define all injectables related to network traffic
+ */
 @Module(includes = [DataModule::class])
 class NetModule(private val baseUrl: String) {
 
@@ -59,7 +63,7 @@ class NetModule(private val baseUrl: String) {
     @Singleton
     fun provideRetrofit(gson: GsonConverterFactory, okHttpClient: OkHttpClient, rxJava: RxJava2CallAdapterFactory): Retrofit {
         return Retrofit.Builder()
-                .baseUrl("https://reva-backend.vincevrp.net")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(gson)
                 .addCallAdapterFactory(rxJava)
                 .client(okHttpClient)

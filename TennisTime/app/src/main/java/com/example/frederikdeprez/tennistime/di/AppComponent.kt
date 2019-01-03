@@ -17,6 +17,9 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class, NetModule::class, DataModule::class])
 interface AppComponent {
 
+    /**
+     * Register all classes that have injectables
+     */
     fun inject(mainActivity: MainActivity)
 
     fun inject(repository: InjectableRepository)
