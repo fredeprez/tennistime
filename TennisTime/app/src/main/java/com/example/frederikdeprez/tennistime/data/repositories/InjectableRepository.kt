@@ -2,13 +2,14 @@ package com.example.frederikdeprez.tennistime.data.repositories
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.example.frederikdeprez.tennistime.Application
 import com.example.frederikdeprez.tennistime.data.network.API
 import javax.inject.Inject
 
 /**
  * Superclass repository that registers its subclasses with dagger so the can use injectables
  *
- * [CategoryRepository] [ExpenseRepository] and [StatisticRepository] extend this repository
+ * [TennisclubRepository] [PlayerRepository] extend this repository
  */
 abstract class InjectableRepository {
 
@@ -17,6 +18,11 @@ abstract class InjectableRepository {
 
     @Inject
     lateinit var context: Context
+
+    init {
+        // register with dagger
+        Application.appComponent.inject(this)
+    }
 
     /**
      * Check whether the phone has internet connectivity
@@ -41,10 +47,4 @@ abstract class InjectableRepository {
             offlineFunction.invoke()
         }
     }
-
-//    init {
-////        // register with dagger
-////        App.appComponent.inject(this)
-////    }
-
 }
