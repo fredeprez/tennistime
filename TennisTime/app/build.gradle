@@ -27,6 +27,9 @@ android {
         outputFormat = 'html'
         outputDirectory = "$buildDir/javadoc"
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {

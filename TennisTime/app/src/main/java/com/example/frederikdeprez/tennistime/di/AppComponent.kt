@@ -7,6 +7,7 @@ import com.example.frederikdeprez.tennistime.di.modules.AppModule
 import com.example.frederikdeprez.tennistime.di.modules.DataModule
 import com.example.frederikdeprez.tennistime.di.modules.NetModule
 import com.example.frederikdeprez.tennistime.ui.tabs.MainActivity
+import com.example.frederikdeprez.tennistime.ui.viewmodels.PlayerViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -23,6 +24,7 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
 
     fun inject(repository: InjectableRepository)
+    fun inject(playerViewModel: PlayerViewModel)
 
 
     /**
