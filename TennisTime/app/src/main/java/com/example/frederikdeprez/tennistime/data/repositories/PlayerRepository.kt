@@ -15,7 +15,7 @@ class PlayerRepository: InjectableRepository() {
     fun getAllPlayersFromTennisclub(tennisclubId: Long): Single<List<Player>>? {
         return api.getAllPlayersFromTennisclub(tennisclubId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
             it.forEach {
-                Log.i("FRED", it.toString())
+                Log.i("FREDSON", it.toString())
             }
         }.doOnError {
             Log.i("FRED_EX", it.toString())
@@ -27,7 +27,7 @@ class PlayerRepository: InjectableRepository() {
      */
     fun getPlayerFromTennisclub(tennisclubId: Long, playerId: Long): Single<Player>? {
         return api.getPlayerFromTennisclub(tennisclubId, playerId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
-            Log.i("FRED", it.toString())
+            Log.i("FREDSON", it.toString())
         }.doOnError {
             Log.i("FRED_EX", it.toString())
         }
@@ -35,7 +35,7 @@ class PlayerRepository: InjectableRepository() {
 
     fun registerNewPlayerInTennisclub(tennisclubId: Long, player: Player): Single<Player>? {
         return api.registerNewPlayerInTennisclub(tennisclubId, player).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess {
-            Log.i("FRED", it.toString())
+            Log.i("FREDSON", it.toString())
         }.doOnError {
             Log.i("FRED_EX", it.toString())
         }
@@ -43,7 +43,7 @@ class PlayerRepository: InjectableRepository() {
 
     fun changePlayer(tennisclubId: Long, playerId: Long, player: Player): Single<Player>? {
         return api.changePlayer(tennisclubId, playerId, player).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
-            Log.i("FRED", it.toString())
+            Log.i("FREDSON", it.toString())
         }.doOnError {
             Log.i("FRED_EX", it.toString())
         }

@@ -1,16 +1,25 @@
 package com.example.frederikdeprez.tennistime.ui.tennisclubs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.frederikdeprez.tennistime.R
+import com.example.frederikdeprez.tennistime.data.Tennisclub
+import com.example.frederikdeprez.tennistime.databinding.FragmentTennisclubItemBinding
+import com.example.frederikdeprez.tennistime.databinding.FragmentTennisclubsBinding
+import com.example.frederikdeprez.tennistime.ui.viewmodels.TennisclubViewModel
+import com.example.frederikdeprez.tennistime.ui.viewmodels.TennisclubsViewModel
 import kotlinx.android.synthetic.main.fragment_tennisclub_item.view.*
 import kotlinx.android.synthetic.main.fragment_tennisclubs.*
 
@@ -25,36 +34,31 @@ import kotlinx.android.synthetic.main.fragment_tennisclubs.*
  */
 class TennisclubsFragment : Fragment() {
     private var listener: OnTennisclubsFragmentListener? = null
-    private var tennisclubs: List<String>? = null
+    private lateinit var tennisclubsViewModel: TennisclubsViewModel
+    private lateinit var binding: FragmentTennisclubsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    @SuppressLint("WrongConstant")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tennisclubs, container, false)
+        activity?.let {
+            tennisclubsViewModel = ViewModelProviders
+                    .of(it).get(TennisclubsViewModel::class.java)
+        }
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tennisclubs, container, false)
+        binding.tennisclubsRecyclerview.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.viewModel = tennisclubsViewModel
+        binding.setLifecycleOwner(activity)
+        return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        tennisclubs = createTennisclubs()
-        tennisclubs_recyclerview.adapter = TennisclubsRecyclerViewAdapter(tennisclubs!!)
-        tennisclubs_recyclerview.layoutManager = LinearLayoutManager(context)
-    }
-
-    private fun createTennisclubs(): List<String> {
-        val tennisclubsList = mutableListOf<String>()
-        tennisclubsList.add("Tennis2000")
-        tennisclubsList.add("T.C. Beukenhof")
-        tennisclubsList.add("T.C. De Snas")
-        tennisclubsList.add("De Montil")
-        tennisclubsList.add("Roland Garros")
-        tennisclubsList.add("Wimbledon")
-        tennisclubsList.add("Australian Open")
-        tennisclubsList.add("US Open")
-        return tennisclubsList
+//        tennisclubs_recyclerview.adapter = TennisclubsRecyclerViewAdapter()
+//        tennisclubs_recyclerview.layoutManager = LinearLayoutManager(context)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,22 +96,34 @@ class TennisclubsFragment : Fragment() {
         fun OnTennisclubsFragmentListener(uri: Uri)
     }
 
-    class TennisclubsRecyclerViewAdapter(private val tennisclubs: List<String>): RecyclerView.Adapter<TennisclubsRecyclerViewAdapter.ViewHolder>() {
+    class TennisclubsRecyclerViewAdapter: RecyclerView.Adapter<TennisclubsRecyclerViewAdapter.ViewHolder>() {
+        private lateinit var tennisclubs: List<Tennisclub>
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TennisclubsRecyclerViewAdapter.ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_tennisclub_item, parent, false)
-            return ViewHolder(view)
+            val binding: FragmentTennisclubItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.fragment_tennisclub_item, parent, false)
+            return ViewHolder(binding)
         }
 
         override fun getItemCount(): Int {
-            return tennisclubs.size
+            return if(::tennisclubs.isInitialized) tennisclubs.size else 0
         }
 
         override fun onBindViewHolder(holder: TennisclubsRecyclerViewAdapter.ViewHolder, position: Int) {
-            holder.tennisclub_text_view.text = tennisclubs[position]
+            holder.bind(tennisclubs[position])
         }
 
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val tennisclub_text_view = view.tennisclub_text_view
+        fun updateTennisclubs(tennisclubs:List<Tennisclub>){
+            this.tennisclubs = tennisclubs
+            notifyDataSetChanged()
+        }
+
+        inner class ViewHolder(private val binding: FragmentTennisclubItemBinding) : RecyclerView.ViewHolder(binding.root) {
+            private val viewModel = TennisclubViewModel()
+
+            fun bind(tennisclub: Tennisclub){
+                viewModel.bind(tennisclub)
+                binding.viewModel = viewModel
+            }
         }
     }
 

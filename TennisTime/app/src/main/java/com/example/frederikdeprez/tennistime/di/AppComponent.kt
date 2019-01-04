@@ -7,6 +7,7 @@ import com.example.frederikdeprez.tennistime.di.modules.AppModule
 import com.example.frederikdeprez.tennistime.di.modules.DataModule
 import com.example.frederikdeprez.tennistime.di.modules.NetModule
 import com.example.frederikdeprez.tennistime.ui.tabs.MainActivity
+import com.example.frederikdeprez.tennistime.ui.viewmodels.BaseViewModel
 import com.example.frederikdeprez.tennistime.ui.viewmodels.PlayerViewModel
 import dagger.Component
 import javax.inject.Singleton
@@ -21,11 +22,8 @@ interface AppComponent {
     /**
      * Register all classes that have injectables
      */
-    fun inject(mainActivity: MainActivity)
-
     fun inject(repository: InjectableRepository)
-    fun inject(playerViewModel: PlayerViewModel)
-
+    fun inject(baseViewModel: BaseViewModel)
 
     /**
      * Create singleton of [AppComponent] with [AppModule], [DataModule] and [NetModule] defined

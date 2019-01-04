@@ -16,35 +16,9 @@ abstract class InjectableRepository {
     @Inject
     lateinit var api: API
 
-    @Inject
-    lateinit var context: Context
-
     init {
         // register with dagger
         Application.appComponent.inject(this)
     }
 
-    /**
-     * Check whether the phone has internet connectivity
-     */
-    private fun isConnected(): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-
-        return networkInfo != null && networkInfo.isConnected
-    }
-
-    /**
-     * Decide which method should be executed when the user is offline
-     *
-     * [onlineFunction] is the function that should be executed when the phone has internet connection
-     * [offlineFunction] is the function that should be executed when the phone has no internet connection
-     */
-    fun <T> doAction(onlineFunction: () -> T, offlineFunction: () -> T): T {
-        return if (isConnected()) {
-            onlineFunction.invoke()
-        } else {
-            offlineFunction.invoke()
-        }
-    }
 }
