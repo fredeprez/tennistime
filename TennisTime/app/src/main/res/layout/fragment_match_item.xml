@@ -1,114 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- http://anjithsasindran.in/blog/2015/08/15/material-sharing-card/ -->
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardUseCompatPadding="true">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <data>
+        <variable
+        name="player"
+        type="com.example.frederikdeprez.tennistime.data.Player" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
 
-        <FrameLayout
-            android:id="@+id/match_frameLayout"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/match_imageView"
+            <FrameLayout
+                android:id="@+id/match_frameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/tennisplayer" />
+                android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/match_linearView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/tennisyellow"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:visibility="gone">
+                <ImageView
+                    android:id="@+id/match_imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/tennisplayer" />
 
                 <LinearLayout
-                    android:id="@+id/match_layoutButtons"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/match_linearView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/tennisyellow"
+                    android:gravity="center_vertical"
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:id="@+id/match_layoutButtons"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:background="@color/middleblue"
-                        android:text="@string/call"/>
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:background="@color/middleblue"
-                        android:text="@string/mail"/>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/match_callbutton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:background="@color/middleblue"
+                            android:text="@string/call"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/match_mailbutton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/black"
+                            android:background="@color/middleblue"
+                            android:text="@string/mail"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </FrameLayout>
 
-        </FrameLayout>
+            <TextView
+                android:id="@+id/match_name_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/match_frameLayout"
+                android:fontFamily="sans-serif-light"
+                android:lineSpacingExtra="@dimen/dimen_4dp"
+                android:paddingBottom="@dimen/dimen_24dp"
+                android:paddingLeft="@dimen/dimen_24dp"
+                android:paddingRight="@dimen/dimen_24dp"
+                android:paddingTop="@dimen/dimen_48dp"
+                android:text="@{player.name}"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/dimen_16sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/match_name_textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/match_frameLayout"
-            android:fontFamily="sans-serif-light"
-            android:lineSpacingExtra="@dimen/dimen_4dp"
-            android:paddingBottom="@dimen/dimen_24dp"
-            android:paddingLeft="@dimen/dimen_24dp"
-            android:paddingRight="@dimen/dimen_24dp"
-            android:paddingTop="@dimen/dimen_48dp"
-            android:text="name:"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/dimen_16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/match_ranking_textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/match_name_textView"
-            android:fontFamily="sans-serif-medium"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/dimen_24dp"
-            android:paddingRight="@dimen/dimen_24dp"
-            android:paddingTop="@dimen/dimen_24dp"
-            android:text="ranking:"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/dimen_16sp"
-            android:textStyle="italic" />
+            <TextView
+                android:id="@+id/match_ranking_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/match_name_textView"
+                android:fontFamily="sans-serif-medium"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/dimen_24dp"
+                android:paddingRight="@dimen/dimen_24dp"
+                android:paddingTop="@dimen/dimen_24dp"
+                android:text="@{player.ranking}"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/dimen_16sp"
+                android:textStyle="italic" />
 
 
-        <ImageButton
-            android:id="@+id/launch_contact_animation"
-            android:layout_width="@dimen/dimen_56dp"
-            android:layout_height="@dimen/dimen_56dp"
-            android:layout_alignBottom="@id/match_frameLayout"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="-28dp"
-            android:layout_marginEnd="@dimen/activity_vertical_margin"
-            android:adjustViewBounds="true"
-            android:background="@drawable/rounded_button"
-            android:elevation="@dimen/dimen_4dp"
-            android:onClick="launchContacts"
-            android:src="@drawable/ic_more" />
+            <ImageButton
+                android:id="@+id/launch_contact_animation"
+                android:layout_width="@dimen/dimen_56dp"
+                android:layout_height="@dimen/dimen_56dp"
+                android:layout_alignBottom="@id/match_frameLayout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="-28dp"
+                android:layout_marginEnd="@dimen/activity_vertical_margin"
+                android:adjustViewBounds="true"
+                android:background="@drawable/rounded_button"
+                android:elevation="@dimen/dimen_4dp"
+                android:onClick="launchContacts"
+                android:src="@drawable/ic_more" />
 
-    </RelativeLayout>
-
-
-
-</com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

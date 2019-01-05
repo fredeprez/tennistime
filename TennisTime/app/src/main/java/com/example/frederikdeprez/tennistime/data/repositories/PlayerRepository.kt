@@ -12,10 +12,10 @@ class PlayerRepository: InjectableRepository() {
     /**
      * Get all the [Player] from [API] from specific [Tennisclub]
      */
-    fun getAllPlayersFromTennisclub(tennisclubId: Long): Single<List<Player>>? {
+    fun getAllPlayersFromTennisclub(tennisclubId: Long): Single<List<Player>> {
         return api.getAllPlayersFromTennisclub(tennisclubId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
             it.forEach {
-                Log.i("FRED", it.toString())
+                Log.i("FREDSON", it.toString())
             }
         }.doOnError {
             Log.i("FRED_EX", it.toString())
@@ -25,25 +25,25 @@ class PlayerRepository: InjectableRepository() {
     /**
      * Get [Player] from [API] from specific [Tennisclub]
      */
-    fun getPlayerFromTennisclub(tennisclubId: Long, playerId: Long): Single<Player>? {
+    fun getPlayerFromTennisclub(tennisclubId: Long, playerId: Long): Single<Player> {
         return api.getPlayerFromTennisclub(tennisclubId, playerId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
-            Log.i("FRED", it.toString())
+            Log.i("FREDSON", it.toString())
         }.doOnError {
             Log.i("FRED_EX", it.toString())
         }
     }
 
-    fun registerNewPlayerInTennisclub(tennisclubId: Long, player: Player): Single<Player>? {
+    fun registerNewPlayerInTennisclub(tennisclubId: Long, player: Player): Single<Player> {
         return api.registerNewPlayerInTennisclub(tennisclubId, player).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess {
-            Log.i("FRED", it.toString())
+            Log.i("FREDSON", it.toString())
         }.doOnError {
             Log.i("FRED_EX", it.toString())
         }
     }
 
-    fun changePlayer(tennisclubId: Long, playerId: Long, player: Player): Single<Player>? {
+    fun changePlayer(tennisclubId: Long, playerId: Long, player: Player): Single<Player> {
         return api.changePlayer(tennisclubId, playerId, player).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
-            Log.i("FRED", it.toString())
+            Log.i("FREDSON", it.toString())
         }.doOnError {
             Log.i("FRED_EX", it.toString())
         }

@@ -1,16 +1,26 @@
 package com.example.frederikdeprez.tennistime.ui.tennisclubs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.frederikdeprez.tennistime.R
+import com.example.frederikdeprez.tennistime.data.Tennisclub
+import com.example.frederikdeprez.tennistime.databinding.FragmentTennisclubItemBinding
+import com.example.frederikdeprez.tennistime.databinding.FragmentTennisclubsBinding
+import com.example.frederikdeprez.tennistime.ui.match.MatchFragment
+import com.example.frederikdeprez.tennistime.ui.viewmodels.TennisclubsViewModel
 import kotlinx.android.synthetic.main.fragment_tennisclub_item.view.*
 import kotlinx.android.synthetic.main.fragment_tennisclubs.*
 
@@ -25,7 +35,10 @@ import kotlinx.android.synthetic.main.fragment_tennisclubs.*
  */
 class TennisclubsFragment : Fragment() {
     private var listener: OnTennisclubsFragmentListener? = null
-    private var tennisclubs: List<String>? = null
+    private lateinit var tennisclubsViewModel: TennisclubsViewModel
+    private lateinit var binding: FragmentTennisclubsBinding
+    private lateinit var adapter: TennisclubsRecyclerViewAdapter
+    private val matchFragment = MatchFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,28 +46,49 @@ class TennisclubsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tennisclubs, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tennisclubs, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        activity?.let {
+            tennisclubsViewModel = ViewModelProviders
+                    .of(it).get(TennisclubsViewModel::class.java)
+        }
+        adapter = TennisclubsRecyclerViewAdapter(tennisclubsViewModel)
+        adapter.setHasStableIds(true)
+        binding.tennisclubsRecyclerview.apply {
+            layoutManager = LinearLayoutManager(this@TennisclubsFragment.context)
+            adapter = this@TennisclubsFragment.adapter
+        }
+        setupCallbacks()
+    }
+
+    private fun setupCallbacks() {
+        Log.i("FREDSON", "setupcallbacks1")
+        tennisclubsViewModel.tennisclubList.observe(this,
+                Observer { list -> adapter.onDataSetChange(list) }
+        )
+        Log.i("FREDSON", "setupcallbacks2")
+        tennisclubsViewModel.selectedTennisclub.observe(this,
+                Observer { event -> event.getContentIfNotHandled()?.let { navigateToMatches(matchFragment) } }
+        )
+    }
+
+    private fun navigateToMatches(fragment: Fragment) {
+        Log.i("FREDSON", "kan ik navigaten?")
+        activity!!.supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_container, fragment)
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onStart() {
         super.onStart()
-        tennisclubs = createTennisclubs()
-        tennisclubs_recyclerview.adapter = TennisclubsRecyclerViewAdapter(tennisclubs!!)
-        tennisclubs_recyclerview.layoutManager = LinearLayoutManager(context)
-    }
-
-    private fun createTennisclubs(): List<String> {
-        val tennisclubsList = mutableListOf<String>()
-        tennisclubsList.add("Tennis2000")
-        tennisclubsList.add("T.C. Beukenhof")
-        tennisclubsList.add("T.C. De Snas")
-        tennisclubsList.add("De Montil")
-        tennisclubsList.add("Roland Garros")
-        tennisclubsList.add("Wimbledon")
-        tennisclubsList.add("Australian Open")
-        tennisclubsList.add("US Open")
-        return tennisclubsList
+//        tennisclubs_recyclerview.adapter = TennisclubsRecyclerViewAdapter()
+//        tennisclubs_recyclerview.layoutManager = LinearLayoutManager(context)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,22 +126,40 @@ class TennisclubsFragment : Fragment() {
         fun OnTennisclubsFragmentListener(uri: Uri)
     }
 
-    class TennisclubsRecyclerViewAdapter(private val tennisclubs: List<String>): RecyclerView.Adapter<TennisclubsRecyclerViewAdapter.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TennisclubsRecyclerViewAdapter.ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_tennisclub_item, parent, false)
-            return ViewHolder(view)
+    class TennisclubsRecyclerViewAdapter(private val actions: TennisclubListAdapterActions): RecyclerView.Adapter<TennisclubsRecyclerViewAdapter.ViewHolder>() {
+        private var tennisclubs: List<Tennisclub> = listOf()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val binding: FragmentTennisclubItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.fragment_tennisclub_item, parent, false)
+            return ViewHolder(binding)
         }
 
         override fun getItemCount(): Int {
             return tennisclubs.size
         }
 
-        override fun onBindViewHolder(holder: TennisclubsRecyclerViewAdapter.ViewHolder, position: Int) {
-            holder.tennisclub_text_view.text = tennisclubs[position]
+        override fun getItemId(position: Int): Long = tennisclubs[position].tenniclubId.toLong()
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.bind(tennisclubs[position])
         }
 
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val tennisclub_text_view = view.tennisclub_text_view
+        fun onDataSetChange(tennisclubList: List<Tennisclub>) {
+            tennisclubs = tennisclubList
+            notifyDataSetChanged()
+        }
+
+//        fun updateTennisclubs(tennisclubs:List<Tennisclub>){
+//            this.tennisclubs = tennisclubs
+//            notifyDataSetChanged()
+//        }
+
+        inner class ViewHolder(private val binding: FragmentTennisclubItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(tennisclub: Tennisclub){
+                binding.tennisclub = tennisclub
+                binding.tennisclubView.setOnClickListener { actions.select(tennisclub) }
+            }
         }
     }
 
@@ -128,4 +180,8 @@ class TennisclubsFragment : Fragment() {
                     }
                 }
     }
+}
+
+interface TennisclubListAdapterActions {
+    fun select(tennisclub: Tennisclub)
 }

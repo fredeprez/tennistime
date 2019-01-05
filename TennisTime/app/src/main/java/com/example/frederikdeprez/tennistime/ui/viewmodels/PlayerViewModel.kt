@@ -5,13 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.example.frederikdeprez.tennistime.Application
 import com.example.frederikdeprez.tennistime.data.Player
 
-class PlayerViewModel: ViewModel() {
+class PlayerViewModel: BaseViewModel() {
 
     private var playerName = MutableLiveData<String>()
-
-//    init {
-//        Application.appComponent.inject(this)
-//    }
 
     fun bind(player: Player) {
         playerName.value = player.name

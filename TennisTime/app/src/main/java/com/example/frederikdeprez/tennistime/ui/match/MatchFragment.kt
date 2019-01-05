@@ -20,11 +20,19 @@ import com.example.frederikdeprez.tennistime.R
 import kotlinx.android.synthetic.main.fragment_match.*
 import kotlinx.android.synthetic.main.fragment_match_item.view.*
 import android.animation.Animator.AnimatorListener
+import android.content.Intent
 import android.view.ViewAnimationUtils
 import android.opengl.ETC1.getHeight
 import android.widget.FrameLayout
 import android.opengl.ETC1.getWidth
 import android.os.Build
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.example.frederikdeprez.tennistime.data.Player
+import com.example.frederikdeprez.tennistime.databinding.FragmentMatchBinding
+import com.example.frederikdeprez.tennistime.databinding.FragmentMatchItemBinding
+import com.example.frederikdeprez.tennistime.ui.viewmodels.MatchViewModel
 import kotlinx.android.synthetic.main.fragment_match_item.*
 
 
@@ -39,7 +47,9 @@ import kotlinx.android.synthetic.main.fragment_match_item.*
  */
 class MatchFragment : Fragment() {
     private var listener: OnMatchFragmentListener? = null
-    private var matches: List<String>? = null
+    private lateinit var matchViewModel: MatchViewModel
+    private lateinit var binding: FragmentMatchBinding
+    private lateinit var adapter: MatchesRecyclerViewAdapter
 
     private lateinit var matchImageView: ImageView
     private lateinit var contactButton: ImageButton
@@ -59,26 +69,57 @@ class MatchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_match, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_match, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.let {
+            matchViewModel = ViewModelProviders
+                    .of(it).get(MatchViewModel::class.java)
+        }
+        adapter = MatchesRecyclerViewAdapter(matchViewModel)
+        adapter.setHasStableIds(true)
+        binding.matchesRecyclerview.apply {
+            layoutManager = LinearLayoutManager(this@MatchFragment.context)
+            adapter = this@MatchFragment.adapter
+        }
+        adapter.setOnItemClickListener(object : MatchesRecyclerViewAdapter.OnItemClickListener {
+            override fun onClick(view: View, view2: View) {
+                launchContacts(view, view2)
+            }
+
+            override fun callClick(view: View, player: Player) {
+                val callIntent = Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:"+ player.phonenumber));
+                startActivity(callIntent);
+            }
+
+            override fun mailClick(view: View, player: Player) {
+                val emailIntent = Intent(android.content.Intent.ACTION_SEND)
+                emailIntent.type = "plain/text"
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, arrayOf(player.email))
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Afspraak om te tennissen");
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Beste " + player.name + " Ik heb u gevonden via de TennisTime app en zou graag afspreken om te tennissen.");
+                startActivity(emailIntent)
+            }
+        })
+        setupCallbacks()
+    }
+
+    private fun setupCallbacks() {
+        matchViewModel.playerList.observe(this,
+                Observer { list -> adapter.onDataSetChange(list) })
     }
 
     override fun onStart() {
         super.onStart()
-        matches = createMatches()
-        matches_recyclerview.adapter = MatchesRecyclerViewAdapter(matches!!)
-        matches_recyclerview.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun createMatches() : List<String> {
-        val matchesList = mutableListOf<String>()
-        matchesList.add("Roger Federer") // Todo veranderen naar player eenmaal model er is
-        matchesList.add("Nadal")
-        matchesList.add("Djoko")
-        matchesList.add("Wawrinka")
-        return matchesList
-    }
 
-    public fun launchContacts(view: View) {
+
+    public fun launchContacts(view: View, view2: View) {
 
         /*
          MARGIN_RIGHT = 16;
@@ -92,15 +133,15 @@ class MatchFragment : Fragment() {
 
         if (flag) {
 
-            launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
-            launch_contact_animation.setImageResource(R.drawable.ic_cancel)
+            view.launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
+            view.launch_contact_animation.setImageResource(R.drawable.ic_cancel)
 
-            val parameters = revealView.layoutParams as FrameLayout.LayoutParams
-            parameters.height = launch_contact_animation.height
-            revealView.layoutParams = parameters
+            val parameters = view2.match_linearView.layoutParams as FrameLayout.LayoutParams
+            parameters.height = match_imageView.height
+            view2.match_linearView.layoutParams = parameters
 
             val anim = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewAnimationUtils.createCircularReveal(revealView, x, y, 0f, hypotenuse.toFloat())
+                ViewAnimationUtils.createCircularReveal(view2.match_linearView, x, y, 0f, hypotenuse.toFloat())
             } else {
                 TODO("VERSION.SDK_INT < LOLLIPOP") // Todo and make linearlayout visible without effect
             }
@@ -112,8 +153,8 @@ class MatchFragment : Fragment() {
                 }
 
                 override fun onAnimationEnd(animator: Animator) {
-                    match_layoutButtons.visibility = (View.VISIBLE)
-                    match_layoutButtons.startAnimation(alphaAnimation)
+                    view2.match_layoutButtons.visibility = (View.VISIBLE)
+                    view2.match_layoutButtons.startAnimation(alphaAnimation)
                 }
 
                 override fun onAnimationCancel(animator: Animator) {
@@ -125,17 +166,17 @@ class MatchFragment : Fragment() {
                 }
             })
 
-            revealView.visibility = View.VISIBLE
+            view2.match_linearView.visibility = View.VISIBLE
             anim.start()
 
             flag = false
         } else {
 
-            launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
-            launch_contact_animation.setImageResource(R.drawable.ic_more)
+            view.launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
+            view.launch_contact_animation.setImageResource(R.drawable.ic_more)
 
             val anim = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewAnimationUtils.createCircularReveal(revealView, x, y, hypotenuse.toFloat(), 0f)
+                ViewAnimationUtils.createCircularReveal(view2.match_linearView, x, y, hypotenuse.toFloat(), 0f)
             } else {
                 TODO("VERSION.SDK_INT < LOLLIPOP")
             }
@@ -147,8 +188,8 @@ class MatchFragment : Fragment() {
                 }
 
                 override fun onAnimationEnd(animator: Animator) {
-                    revealView.visibility = View.GONE
-                    match_layoutButtons.visibility = (View.GONE)
+                    view2.match_linearView.visibility = View.GONE
+                    view2.match_layoutButtons.visibility = (View.GONE)
                 }
 
                 override fun onAnimationCancel(animator: Animator) {
@@ -200,23 +241,49 @@ class MatchFragment : Fragment() {
         fun OnMatchFragmentListener(uri: Uri)
     }
 
-    class MatchesRecyclerViewAdapter(private val matches: List<String>): RecyclerView.Adapter<MatchesRecyclerViewAdapter.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesRecyclerViewAdapter.ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_match_item, parent, false)
-            return ViewHolder(view)
+    class MatchesRecyclerViewAdapter(private val actions: MatchListAdapterActions): RecyclerView.Adapter<MatchesRecyclerViewAdapter.ViewHolder>() {
+        private var matches: List<Player> = listOf()
+        lateinit var listener: OnItemClickListener
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            setOnItemClickListener(listener)
+            val binding: FragmentMatchItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.fragment_match_item, parent, false)
+            return ViewHolder(binding)
         }
 
         override fun getItemCount(): Int {
             return matches.size
         }
 
-        override fun onBindViewHolder(holder: MatchesRecyclerViewAdapter.ViewHolder, position: Int) {
-            holder.matchNameTextView.text = matches[position]
+        override fun getItemId(position: Int): Long = matches[position].playerId.toLong()
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.bind(matches[position])
         }
 
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val matchNameTextView = view.match_name_textView
-            val contactsButton = view.launch_contact_animation
+        fun onDataSetChange(matchList: List<Player>) {
+            matches = matchList
+            notifyDataSetChanged()
+        }
+
+        inner class ViewHolder(private val binding: FragmentMatchItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(player:Player) {
+                binding.player = player
+                binding.launchContactAnimation.setOnClickListener { listener.onClick(it, binding.matchLinearView)}
+                binding.matchCallbutton.setOnClickListener { listener.callClick(it, player)}
+                binding.matchMailbutton.setOnClickListener { listener.mailClick(it, player) }
+            }
+        }
+
+        interface OnItemClickListener {
+            fun onClick(view: View, view2: View)
+            fun callClick(view: View, player: Player)
+            fun mailClick(view: View, player: Player)
+        }
+
+        fun setOnItemClickListener(listener: OnItemClickListener) {
+            this.listener = listener
         }
     }
 
@@ -235,3 +302,8 @@ class MatchFragment : Fragment() {
                 }
     }
 }
+
+interface MatchListAdapterActions {
+    fun pressButton(player: Player)
+}
+

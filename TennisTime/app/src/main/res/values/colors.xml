@@ -11,4 +11,5 @@
     <color name="lightbrown">#FFA30D</color>
     <color name="brown">#B26F00</color>
     <color name="grey">#BEBEBE</color>
+    <color name="black">#000000</color>
 </resources>
