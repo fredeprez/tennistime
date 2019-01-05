@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.example.frederikdeprez.tennistime.ui.viewmodels.TennisclubsViewModel" />
+
+
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -54,8 +53,7 @@
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/fragment_tennisclub_item"
-            app:adapter="@{viewModel.getTennisclubsRecyclerViewAdapter()}">
+            tools:listitem="@layout/fragment_tennisclub_item">
 
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

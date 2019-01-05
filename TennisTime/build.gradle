@@ -17,7 +17,7 @@ buildscript {
         retrofit_version = '2.4.0'
         rxkotlin_version = '2.3.0'
         rxjava_version = '2.2.3'
-        rxandroid_version = '2.1.0'
+        rxandroid_version = "2.1.0"
     }
 
     repositories {
