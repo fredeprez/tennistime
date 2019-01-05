@@ -3,8 +3,8 @@ package com.example.frederikdeprez.tennistime.data
 import java.util.*
 
 data class Player(
-        val playerId: Long,
-        val tennisclubId: Long,
+        val playerId: String,
+        val tennisclubId: String,
         val name: String,
         val email: String,
         val phonenumber: String,

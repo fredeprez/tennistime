@@ -3,12 +3,14 @@ package com.example.frederikdeprez.tennistime.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.frederikdeprez.tennistime.data.Player
 import com.example.frederikdeprez.tennistime.ui.match.MatchListAdapterActions
 import com.example.frederikdeprez.tennistime.util.Event
 import io.reactivex.rxkotlin.addTo
 
-class MatchViewModel: BaseViewModel(), MatchListAdapterActions {
+class MatchViewModel(private val tennisclubId: String): BaseViewModel(), MatchListAdapterActions {
 
     private val _playerList = MutableLiveData<List<Player>>()
     val playerList: LiveData<List<Player>> = _playerList
@@ -17,11 +19,11 @@ class MatchViewModel: BaseViewModel(), MatchListAdapterActions {
     val selectedPlayer: LiveData<Event<Player>> = _selectedPlayer
 
     init {
-        getAllPlayersFromTennisclub()
+        getAllPlayersFromTennisclub(tennisclubId)
     }
 
-    fun getAllPlayersFromTennisclub() {
-        playerRepository.getAllPlayersFromTennisclub(1)
+    fun getAllPlayersFromTennisclub(tennisclubId: String) {
+        playerRepository.getAllPlayersFromTennisclub(tennisclubId)
                 .subscribe({
                     _playerList.value = it
                 }, {
@@ -32,5 +34,13 @@ class MatchViewModel: BaseViewModel(), MatchListAdapterActions {
 
     override fun pressButton(player: Player) {
         _selectedPlayer.value = Event(player.copy())
+    }
+}
+
+class MyViewModelFactory(
+        private val tennisclubId: String
+): ViewModelProvider.NewInstanceFactory() {
+    override fun <T: ViewModel> create(modelClass:Class<T>): T {
+        return MatchViewModel(tennisclubId) as T
     }
 }

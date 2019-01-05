@@ -138,7 +138,7 @@ class TennisclubsFragment : Fragment() {
             return tennisclubs.size
         }
 
-        override fun getItemId(position: Int): Long = tennisclubs[position].tenniclubId.toLong()
+        override fun getItemId(position: Int): Long = tennisclubs[position].tennisclubId.toLong()
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             holder.bind(tennisclubs[position])
@@ -149,16 +149,11 @@ class TennisclubsFragment : Fragment() {
             notifyDataSetChanged()
         }
 
-//        fun updateTennisclubs(tennisclubs:List<Tennisclub>){
-//            this.tennisclubs = tennisclubs
-//            notifyDataSetChanged()
-//        }
-
         inner class ViewHolder(private val binding: FragmentTennisclubItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
             fun bind(tennisclub: Tennisclub){
                 binding.tennisclub = tennisclub
-                binding.tennisclubView.setOnClickListener { actions.select(tennisclub) }
+                binding.tennisclubButton.setOnClickListener { actions.select(tennisclub) }
             }
         }
     }

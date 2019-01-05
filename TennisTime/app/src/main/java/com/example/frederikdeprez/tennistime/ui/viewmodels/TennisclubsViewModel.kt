@@ -37,6 +37,7 @@ class TennisclubsViewModel: BaseViewModel(), TennisclubListAdapterActions {
     override fun select(tennisclub: Tennisclub) {
         Log.i("FREDSON", "select")
         _selectedTennisclub.value = Event(tennisclub.copy())
+        Log.i("FREDSON", "selected: " + _selectedTennisclub.value.toString())
     }
 
 }
