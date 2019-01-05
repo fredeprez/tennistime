@@ -53,14 +53,14 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:textColor="@color/white"
                             android:background="@color/middleblue"
                             android:text="@string/call"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:textColor="@color/white"
                             android:background="@color/middleblue"
                             android:text="@string/mail"/>

@@ -84,6 +84,11 @@ class MatchFragment : Fragment() {
             layoutManager = LinearLayoutManager(this@MatchFragment.context)
             adapter = this@MatchFragment.adapter
         }
+        adapter.setOnItemClickListener(object : MatchesRecyclerViewAdapter.OnItemClickListener {
+            override fun onClick(view: View, view2: View) {
+                launchContacts(view, view2)
+            }
+        })
         setupCallbacks()
     }
 
@@ -98,7 +103,7 @@ class MatchFragment : Fragment() {
 
 
 
-    public fun launchContacts(view: View) {
+    public fun launchContacts(view: View, view2: View) {
 
         /*
          MARGIN_RIGHT = 16;
@@ -112,15 +117,15 @@ class MatchFragment : Fragment() {
 
         if (flag) {
 
-            launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
-            launch_contact_animation.setImageResource(R.drawable.ic_cancel)
+            view.launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
+            view.launch_contact_animation.setImageResource(R.drawable.ic_cancel)
 
-            val parameters = revealView.layoutParams as FrameLayout.LayoutParams
-            parameters.height = launch_contact_animation.height
-            revealView.layoutParams = parameters
+            val parameters = view2.match_linearView.layoutParams as FrameLayout.LayoutParams
+            parameters.height = match_imageView.height
+            view2.match_linearView.layoutParams = parameters
 
             val anim = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewAnimationUtils.createCircularReveal(revealView, x, y, 0f, hypotenuse.toFloat())
+                ViewAnimationUtils.createCircularReveal(view2.match_linearView, x, y, 0f, hypotenuse.toFloat())
             } else {
                 TODO("VERSION.SDK_INT < LOLLIPOP") // Todo and make linearlayout visible without effect
             }
@@ -132,8 +137,8 @@ class MatchFragment : Fragment() {
                 }
 
                 override fun onAnimationEnd(animator: Animator) {
-                    match_layoutButtons.visibility = (View.VISIBLE)
-                    match_layoutButtons.startAnimation(alphaAnimation)
+                    view2.match_layoutButtons.visibility = (View.VISIBLE)
+                    view2.match_layoutButtons.startAnimation(alphaAnimation)
                 }
 
                 override fun onAnimationCancel(animator: Animator) {
@@ -145,17 +150,17 @@ class MatchFragment : Fragment() {
                 }
             })
 
-            revealView.visibility = View.VISIBLE
+            view2.match_linearView.visibility = View.VISIBLE
             anim.start()
 
             flag = false
         } else {
 
-            launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
-            launch_contact_animation.setImageResource(R.drawable.ic_more)
+            view.launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
+            view.launch_contact_animation.setImageResource(R.drawable.ic_more)
 
             val anim = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewAnimationUtils.createCircularReveal(revealView, x, y, hypotenuse.toFloat(), 0f)
+                ViewAnimationUtils.createCircularReveal(view2.match_linearView, x, y, hypotenuse.toFloat(), 0f)
             } else {
                 TODO("VERSION.SDK_INT < LOLLIPOP")
             }
@@ -167,8 +172,8 @@ class MatchFragment : Fragment() {
                 }
 
                 override fun onAnimationEnd(animator: Animator) {
-                    revealView.visibility = View.GONE
-                    match_layoutButtons.visibility = (View.GONE)
+                    view2.match_linearView.visibility = View.GONE
+                    view2.match_layoutButtons.visibility = (View.GONE)
                 }
 
                 override fun onAnimationCancel(animator: Animator) {
@@ -222,8 +227,10 @@ class MatchFragment : Fragment() {
 
     class MatchesRecyclerViewAdapter(private val actions: MatchListAdapterActions): RecyclerView.Adapter<MatchesRecyclerViewAdapter.ViewHolder>() {
         private var matches: List<Player> = listOf()
+        lateinit var listener: OnItemClickListener
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            setOnItemClickListener(listener)
             val binding: FragmentMatchItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.fragment_match_item, parent, false)
             return ViewHolder(binding)
         }
@@ -247,8 +254,16 @@ class MatchFragment : Fragment() {
 
             fun bind(player:Player) {
                 binding.player = player
-                binding.launchContactAnimation.setOnClickListener { actions.pressButton(player)}
+                binding.launchContactAnimation.setOnClickListener { listener.onClick(it, binding.matchLinearView)}
             }
+        }
+
+        interface OnItemClickListener {
+            fun onClick(view: View, view2: View)
+        }
+
+        fun setOnItemClickListener(listener: OnItemClickListener) {
+            this.listener = listener
         }
     }
 
