@@ -20,6 +20,7 @@ import com.example.frederikdeprez.tennistime.R
 import kotlinx.android.synthetic.main.fragment_match.*
 import kotlinx.android.synthetic.main.fragment_match_item.view.*
 import android.animation.Animator.AnimatorListener
+import android.content.Intent
 import android.view.ViewAnimationUtils
 import android.opengl.ETC1.getHeight
 import android.widget.FrameLayout
@@ -87,6 +88,16 @@ class MatchFragment : Fragment() {
         adapter.setOnItemClickListener(object : MatchesRecyclerViewAdapter.OnItemClickListener {
             override fun onClick(view: View, view2: View) {
                 launchContacts(view, view2)
+            }
+
+            override fun callClick(view: View, player: Player) {
+                val callIntent = Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:"+ player.phonenumber));
+                startActivity(callIntent);
+            }
+
+            override fun mailClick(view: View, player: Player) {
+
             }
         })
         setupCallbacks()
@@ -255,11 +266,15 @@ class MatchFragment : Fragment() {
             fun bind(player:Player) {
                 binding.player = player
                 binding.launchContactAnimation.setOnClickListener { listener.onClick(it, binding.matchLinearView)}
+                binding.matchCallbutton.setOnClickListener { listener.callClick(it, player)}
+                binding.matchMailbutton.setOnClickListener { listener.mailClick(it, player) }
             }
         }
 
         interface OnItemClickListener {
             fun onClick(view: View, view2: View)
+            fun callClick(view: View, player: Player)
+            fun mailClick(view: View, player: Player)
         }
 
         fun setOnItemClickListener(listener: OnItemClickListener) {
