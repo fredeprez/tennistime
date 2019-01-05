@@ -4,12 +4,17 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.frederikdeprez.tennistime.data.Player
+import com.example.frederikdeprez.tennistime.ui.match.MatchListAdapterActions
+import com.example.frederikdeprez.tennistime.util.Event
 import io.reactivex.rxkotlin.addTo
 
-class MatchViewModel: BaseViewModel() {
+class MatchViewModel: BaseViewModel(), MatchListAdapterActions {
 
     private val _playerList = MutableLiveData<List<Player>>()
     val playerList: LiveData<List<Player>> = _playerList
+
+    private val _selectedPlayer = MutableLiveData<Event<Player>>()
+    val selectedPlayer: LiveData<Event<Player>> = _selectedPlayer
 
     init {
         getAllPlayersFromTennisclub()
@@ -25,5 +30,7 @@ class MatchViewModel: BaseViewModel() {
                 .addTo(compositeDisposable)
     }
 
-
+    override fun pressButton(player: Player) {
+        _selectedPlayer.value = Event(player.copy())
+    }
 }

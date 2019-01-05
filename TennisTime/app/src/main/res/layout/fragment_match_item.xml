@@ -5,8 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
         name="player"
-        type="com.example.frederikdeprez.tennistime.data.Player />
+        type="com.example.frederikdeprez.tennistime.data.Player" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

@@ -25,6 +25,13 @@ import android.opengl.ETC1.getHeight
 import android.widget.FrameLayout
 import android.opengl.ETC1.getWidth
 import android.os.Build
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.example.frederikdeprez.tennistime.data.Player
+import com.example.frederikdeprez.tennistime.databinding.FragmentMatchBinding
+import com.example.frederikdeprez.tennistime.databinding.FragmentMatchItemBinding
+import com.example.frederikdeprez.tennistime.ui.viewmodels.MatchViewModel
 import kotlinx.android.synthetic.main.fragment_match_item.*
 
 
@@ -39,7 +46,9 @@ import kotlinx.android.synthetic.main.fragment_match_item.*
  */
 class MatchFragment : Fragment() {
     private var listener: OnMatchFragmentListener? = null
-    private var matches: List<String>? = null
+    private lateinit var matchViewModel: MatchViewModel
+    private lateinit var binding: FragmentMatchBinding
+    private lateinit var adapter: MatchesRecyclerViewAdapter
 
     private lateinit var matchImageView: ImageView
     private lateinit var contactButton: ImageButton
@@ -59,24 +68,35 @@ class MatchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_match, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_match, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.let {
+            matchViewModel = ViewModelProviders
+                    .of(it).get(MatchViewModel::class.java)
+        }
+        adapter = MatchesRecyclerViewAdapter(matchViewModel)
+        adapter.setHasStableIds(true)
+        binding.matchesRecyclerview.apply {
+            layoutManager = LinearLayoutManager(this@MatchFragment.context)
+            adapter = this@MatchFragment.adapter
+        }
+        setupCallbacks()
+    }
+
+    private fun setupCallbacks() {
+        matchViewModel.playerList.observe(this,
+                Observer { list -> adapter.onDataSetChange(list) })
     }
 
     override fun onStart() {
         super.onStart()
-        matches = createMatches()
-        matches_recyclerview.adapter = MatchesRecyclerViewAdapter(matches!!)
-        matches_recyclerview.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun createMatches() : List<String> {
-        val matchesList = mutableListOf<String>()
-        matchesList.add("Roger Federer") // Todo veranderen naar player eenmaal model er is
-        matchesList.add("Nadal")
-        matchesList.add("Djoko")
-        matchesList.add("Wawrinka")
-        return matchesList
-    }
+
 
     public fun launchContacts(view: View) {
 
@@ -200,23 +220,35 @@ class MatchFragment : Fragment() {
         fun OnMatchFragmentListener(uri: Uri)
     }
 
-    class MatchesRecyclerViewAdapter(private val matches: List<String>): RecyclerView.Adapter<MatchesRecyclerViewAdapter.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesRecyclerViewAdapter.ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_match_item, parent, false)
-            return ViewHolder(view)
+    class MatchesRecyclerViewAdapter(private val actions: MatchListAdapterActions): RecyclerView.Adapter<MatchesRecyclerViewAdapter.ViewHolder>() {
+        private var matches: List<Player> = listOf()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val binding: FragmentMatchItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.fragment_match_item, parent, false)
+            return ViewHolder(binding)
         }
 
         override fun getItemCount(): Int {
             return matches.size
         }
 
-        override fun onBindViewHolder(holder: MatchesRecyclerViewAdapter.ViewHolder, position: Int) {
-            holder.matchNameTextView.text = matches[position]
+        override fun getItemId(position: Int): Long = matches[position].playerId.toLong()
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.bind(matches[position])
         }
 
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val matchNameTextView = view.match_name_textView
-            val contactsButton = view.launch_contact_animation
+        fun onDataSetChange(matchList: List<Player>) {
+            matches = matchList
+            notifyDataSetChanged()
+        }
+
+        inner class ViewHolder(private val binding: FragmentMatchItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(player:Player) {
+                binding.player = player
+                binding.launchContactAnimation.setOnClickListener { actions.pressButton(player)}
+            }
         }
     }
 
@@ -235,3 +267,8 @@ class MatchFragment : Fragment() {
                 }
     }
 }
+
+interface MatchListAdapterActions {
+    fun pressButton(player: Player)
+}
+
