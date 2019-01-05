@@ -11,10 +11,10 @@ class TennisclubRepository: InjectableRepository() {
     /**
      * Get all the [Tennisclub] from [API]
      */
-    fun getAllTennisClubs(): Single<List<Tennisclub>>? {
+    fun getAllTennisClubs(): Single<List<Tennisclub>> {
         return api.getAllTennisclubs().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
             it.forEach {
-                Log.i("FRED", it.toString())
+                Log.i("FREDSON", "repo " + it.toString())
             }
         }.doOnError {
             Log.i("FRED_EX", it.toString())
