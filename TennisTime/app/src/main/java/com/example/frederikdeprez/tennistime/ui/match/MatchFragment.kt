@@ -97,7 +97,12 @@ class MatchFragment : Fragment() {
             }
 
             override fun mailClick(view: View, player: Player) {
-
+                val emailIntent = Intent(android.content.Intent.ACTION_SEND)
+                emailIntent.type = "plain/text"
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, arrayOf(player.email))
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Afspraak om te tennissen");
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Beste " + player.name + " Ik heb u gevonden via de TennisTime app en zou graag afspreken om te tennissen.");
+                startActivity(emailIntent)
             }
         })
         setupCallbacks()
