@@ -23,13 +23,13 @@ import java.util.*
 @Entity(tableName = "players")
 data class Player(
         val playerId: String,
-        val tennisclubId: String,
-        val name: String,
-        val email: String,
-        val phonenumber: String,
-        val ranking: String,
-        val vtvnumber: String,
-        val avatar: String
+        var tennisclubId: String,
+        var name: String,
+        var email: String,
+        var phonenumber: String,
+        var ranking: String,
+        var vtvnumber: String,
+        var avatar: String
 ) {
 
     @PrimaryKey(autoGenerate = true)
