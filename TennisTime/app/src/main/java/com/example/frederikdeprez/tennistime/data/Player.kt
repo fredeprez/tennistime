@@ -2,6 +2,7 @@ package com.example.frederikdeprez.tennistime.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.frederikdeprez.tennistime.data.network.response.PlayerDTO
 import java.util.*
 
 /**
