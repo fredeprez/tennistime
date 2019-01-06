@@ -51,7 +51,7 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
     }
 
     override fun registerNewPlayerInTennisclub(tennisclubId: String, player: Player) {
-        if(isValid(player)) {
+        if(isValid(player) && sharedPreferences.getString("playerId", "0") == "0") {
             playerRepository.registerNewPlayerInTennisclub(tennisclubId, player)
                     .subscribe({
                         _mutablePlayer.value = it
