@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TennisTime</string>
+    <string name="player">tennisser</string>
+    <string name="match">match</string>
+    <string name="search">zoeken</string>
+    <string name="contact">contact</string>
+    <string name="name">naam</string>
+    <string name="phone">gsm nummer</string>
+    <string name="mail">email</string>
+    <string name="vtvnumber">vtv nummer</string>
+    <string name="ranking">klassement</string>
+    <string name="start">start</string>
+    <string name="einde">einde</string>
+    <string name="call">bellen</string>
+    <string name="tennisclubIDs">tennisclub IDs</string>
+    <string name="tennisclubID">tennisclub ID</string>
+</resources>
