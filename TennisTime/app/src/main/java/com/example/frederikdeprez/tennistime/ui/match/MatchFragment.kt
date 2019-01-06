@@ -35,7 +35,7 @@ import com.example.frederikdeprez.tennistime.data.Tennisclub
 import com.example.frederikdeprez.tennistime.databinding.FragmentMatchBinding
 import com.example.frederikdeprez.tennistime.databinding.FragmentMatchItemBinding
 import com.example.frederikdeprez.tennistime.ui.viewmodels.MatchViewModel
-import com.example.frederikdeprez.tennistime.ui.viewmodels.MyViewModelFactory
+//import com.example.frederikdeprez.tennistime.ui.viewmodels.MyViewModelFactory
 import com.example.frederikdeprez.tennistime.ui.viewmodels.TennisclubsViewModel
 import kotlinx.android.synthetic.main.fragment_match_item.*
 
@@ -85,11 +85,9 @@ class MatchFragment : Fragment() {
             tennisclubsViewModel = ViewModelProviders
                     .of(it).get(TennisclubsViewModel::class.java)
         }
-        tennisclub = tennisclubsViewModel.selectedTennisclub.value!!.getContent()
-        Log.i("FREDSON", "id: " + tennisclub.toString())
         activity?.let {
             matchViewModel = ViewModelProviders
-                    .of(it, MyViewModelFactory(tennisclub.tennisclubId)).get(MatchViewModel::class.java)
+                    .of(it).get(MatchViewModel::class.java)
         }
         adapter = MatchesRecyclerViewAdapter(matchViewModel)
         adapter.setHasStableIds(true)
@@ -97,7 +95,10 @@ class MatchFragment : Fragment() {
             layoutManager = LinearLayoutManager(this@MatchFragment.context)
             adapter = this@MatchFragment.adapter
         }
-        matchViewModel.getAllPlayersFromTennisclub(tennisclub.tennisclubId)
+        if(tennisclubsViewModel.selectedTennisclub.value != null) {
+            tennisclub = tennisclubsViewModel.selectedTennisclub.value!!.getContent()
+            matchViewModel.getAllPlayersFromTennisclub(tennisclub.tennisclubId)
+        }
         adapter.setOnItemClickListener(object : MatchesRecyclerViewAdapter.OnItemClickListener {
             override fun onClick(view: View, view2: View) {
                 launchContacts(view, view2)

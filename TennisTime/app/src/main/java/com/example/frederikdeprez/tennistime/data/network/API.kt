@@ -2,6 +2,8 @@ package com.example.frederikdeprez.tennistime.data.network
 
 import com.example.frederikdeprez.tennistime.data.Player
 import com.example.frederikdeprez.tennistime.data.Tennisclub
+import com.example.frederikdeprez.tennistime.data.network.response.PlayerDTO
+import com.example.frederikdeprez.tennistime.data.network.response.TennisclubDTO
 import io.reactivex.Single
 import retrofit2.http.*
 
@@ -17,13 +19,19 @@ interface API {
      * Get all [Tennisclub]
      */
     @GET("api/tennisclub")
-    fun getAllTennisclubs(): Single<List<Tennisclub>>
+    fun getAllTennisclubs(): Single<List<TennisclubDTO>>
+
+    /**
+     *  Get all [Player]
+     */
+    @GET("api/player")
+    fun getAllPlayers(): Single<List<PlayerDTO>>
 
     /**
      *  Get all [Player] from specific [Tennisclub]
      */
     @GET("api/tennisclub/{tennisclubId}/player")
-    fun getAllPlayersFromTennisclub(@Path("tennisclubId") tennisclubId: String): Single<List<Player>>
+    fun getAllPlayersFromTennisclub(@Path("tennisclubId") tennisclubId: String): Single<List<PlayerDTO>>
 
     /**
      * Get specific [Player] from [Tennisclub]

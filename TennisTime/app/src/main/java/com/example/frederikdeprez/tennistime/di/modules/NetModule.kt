@@ -1,8 +1,10 @@
 package com.example.frederikdeprez.tennistime.di.modules
 
+import android.app.Application
 import com.example.frederikdeprez.tennistime.util.Constants.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -28,6 +30,21 @@ class NetModule(private val baseUrl: String) {
     }
 
     /**
+     * Provide a singleton of [Cache]
+     *
+     * @param application instance of [Application] provided by dagger
+     * @see [AppModule]
+     *
+     * @return singleton of [Cache]
+     */
+    @Provides
+    @Singleton
+    fun provideHttpCache(application: Application): Cache {
+        val cacheSize = 10 * 1024 * 1024L
+        return Cache(application.cacheDir, cacheSize)
+    }
+
+    /**
      * Provide a singleton of [GsonConverterFactory]
      */
     @Provides
@@ -41,8 +58,9 @@ class NetModule(private val baseUrl: String) {
      */
     @Provides
     @Singleton
-    fun provideOkHttpClient(logger: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(cache: Cache, logger: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
+                .cache(cache)
                 .addInterceptor(logger)
                 .build()
     }
