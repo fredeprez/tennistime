@@ -1,6 +1,7 @@
 package com.example.frederikdeprez.tennistime.data.db
 
 import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.example.frederikdeprez.tennistime.data.Player
 import com.example.frederikdeprez.tennistime.data.Tennisclub
 
@@ -15,7 +16,7 @@ import com.example.frederikdeprez.tennistime.data.Tennisclub
         exportSchema = false
 )
 
-abstract class AppDatabase {
+abstract class AppDatabase: RoomDatabase() {
 
     /**
      * Defines the DAO used to operate on [Tennisclub] such as insert all, create

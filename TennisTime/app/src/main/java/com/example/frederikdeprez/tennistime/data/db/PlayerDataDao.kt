@@ -17,11 +17,12 @@ import io.reactivex.Single
 interface PlayerDataDao {
 
     /**
-     * Get all the [Player] objects saved in the database where the [Player.playerId] = [tennisclubId]
+     * Get all the [Player] objects saved in the database where the [Player.tennisclubId] =
+     * @param tennisclubId
      *
      * @return Observable list of all these [Player] objects in the database
      */
-    @Query("select * from players where playerBackendId = :tennisclubId")
+    @Query("select * from players where tennisclubId = :tennisclubId")
     fun getAllPlayersFromTennisclub(tennisclubId: String): Single<List<Player>>
 
     /**
