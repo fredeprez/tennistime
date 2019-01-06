@@ -66,6 +66,15 @@ dependencies {
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    // ROOM
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_stdlib_version"
+
+    // DEBUG DB
+    debugImplementation "com.amitshekhar.android:debug-db:$debugDb_version"
+
 
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     testImplementation 'junit:junit:4.12'
