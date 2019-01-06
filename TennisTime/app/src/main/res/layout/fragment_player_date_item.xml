@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:layout_weight="0.1"
-                android:text="id: " />
+                android:text="@string/id" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tennisclubid_text_view"

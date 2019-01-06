@@ -14,5 +14,6 @@
     <string name="start">start</string>
     <string name="einde">end</string>
     <string name="call">call</string>
+    <string name="id">id:</string>
 
 </resources>
