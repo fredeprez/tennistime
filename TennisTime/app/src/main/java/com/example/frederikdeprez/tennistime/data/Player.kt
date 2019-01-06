@@ -10,6 +10,5 @@ data class Player(
         val phonenumber: String,
         val ranking: String,
         val vtvnumber: String,
-        val availabilities: List<Date>,
         val avatar: String
 )
