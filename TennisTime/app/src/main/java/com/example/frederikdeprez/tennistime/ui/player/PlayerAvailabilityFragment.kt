@@ -104,7 +104,6 @@ class PlayerAvailabilityFragment : Fragment() {
      * for more information.
      */
     interface OnPlayerAvailabilityFragmentListener {
-        // TODO: Update argument type and name
         fun OnPlayerAvailabilityFragmentListener(uri: Uri)
     }
 
@@ -144,7 +143,6 @@ class PlayerAvailabilityFragment : Fragment() {
          *
          * @return A new instance of fragment PlayerAvailabilityFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
                 PlayerAvailabilityFragment().apply {

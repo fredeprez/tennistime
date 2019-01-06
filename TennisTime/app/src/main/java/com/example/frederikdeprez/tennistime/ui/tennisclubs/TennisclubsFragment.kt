@@ -67,18 +67,15 @@ class TennisclubsFragment : Fragment() {
     }
 
     private fun setupCallbacks() {
-        Log.i("FREDSON", "setupcallbacks1")
         tennisclubsViewModel.tennisclubList.observe(this,
                 Observer { list -> adapter.onDataSetChange(list) }
         )
-        Log.i("FREDSON", "setupcallbacks2")
         tennisclubsViewModel.selectedTennisclub.observe(this,
                 Observer { event -> event.getContentIfNotHandled()?.let { navigateToMatches(matchFragment) } }
         )
     }
 
     private fun navigateToMatches(fragment: Fragment) {
-        Log.i("FREDSON", "kan ik navigaten?")
         activity!!.supportFragmentManager.beginTransaction()
                 .replace(R.id.frame_container, fragment)
                 .addToBackStack(null)
@@ -91,7 +88,6 @@ class TennisclubsFragment : Fragment() {
 //        tennisclubs_recyclerview.layoutManager = LinearLayoutManager(context)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.OnTennisclubsFragmentListener(uri)
     }
@@ -122,7 +118,6 @@ class TennisclubsFragment : Fragment() {
      * for more information.
      */
     interface OnTennisclubsFragmentListener {
-        // TODO: Update argument type and name
         fun OnTennisclubsFragmentListener(uri: Uri)
     }
 
@@ -167,7 +162,6 @@ class TennisclubsFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment TennisclubsFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
                 TennisclubsFragment().apply {

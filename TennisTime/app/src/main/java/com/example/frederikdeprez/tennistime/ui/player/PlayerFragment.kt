@@ -95,7 +95,6 @@ class PlayerFragment : Fragment() {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.OnPlayerFragmentListener(uri)
     }
@@ -126,7 +125,6 @@ class PlayerFragment : Fragment() {
      * for more information.
      */
     interface OnPlayerFragmentListener {
-        // TODO: Update argument type and name
         fun OnPlayerFragmentListener(uri: Uri)
     }
 

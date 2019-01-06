@@ -27,7 +27,6 @@ class MatchViewModel(): BaseViewModel(), MatchListAdapterActions {
                 .subscribe({
                     _playerList.value = it
                 }, {
-                    Log.i("FREDEX", it.toString())
                 })
                 .addTo(compositeDisposable)
     }
@@ -37,7 +36,6 @@ class MatchViewModel(): BaseViewModel(), MatchListAdapterActions {
                 .subscribe({
                     _playerList.value = it
                 }, {
-                    Log.i("FREDEX", it.toString())
                 })
                 .addTo(compositeDisposable)
     }

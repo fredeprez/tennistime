@@ -13,7 +13,6 @@ import retrofit2.http.*
  */
 interface API {
 
-    // Todo: change some documentation with id
 
     /**
      * Get all [Tennisclub]

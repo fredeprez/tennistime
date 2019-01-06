@@ -20,7 +20,6 @@ class TennisclubsViewModel: BaseViewModel(), TennisclubListAdapterActions {
     val selectedTennisclub: LiveData<Event<Tennisclub>> = _selectedTennisclub
 
     init {
-        Log.i("FREDSON", "kom ik hier")
         getAllTennisclubs()
     }
 
@@ -29,15 +28,12 @@ class TennisclubsViewModel: BaseViewModel(), TennisclubListAdapterActions {
                 .subscribe({
                     _tennisclubList.value = it
                 }, {
-                    Log.i("FREDEX", it.toString())
                 })
                 .addTo(compositeDisposable)
     }
 
     override fun select(tennisclub: Tennisclub) {
-        Log.i("FREDSON", "select")
         _selectedTennisclub.value = Event(tennisclub.copy())
-        Log.i("FREDSON", "selected: " + _selectedTennisclub.value.toString())
     }
 
 }

@@ -45,7 +45,6 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
                     _mutablePlayer.value = it
                     sharedPreferences.edit().putString("name", it.name).apply()
                 }, {
-                    Log.i("FREDEX", it.toString())
                 })
                 .addTo(compositeDisposable)
     }
@@ -58,7 +57,6 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
                         sharedPreferences.edit().putString("playerId", it.playerId).apply()
                         sharedPreferences.edit().putString("tennisclubId", it.tennisclubId).apply()
                     }, {
-                        Log.i("FREDEX", it.toString())
                     })
                     .addTo(compositeDisposable)
         }
@@ -71,7 +69,6 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
                         _mutablePlayer.value = it
                         sharedPreferences.edit().putString("name", it.name).apply()
                     }, {
-                        Log.i("FREDEX", it.toString())
                     })
                     .addTo(compositeDisposable)
         }

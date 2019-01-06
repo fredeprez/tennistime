@@ -220,7 +220,6 @@ class MatchFragment : Fragment() {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.OnMatchFragmentListener(uri)
     }
@@ -251,7 +250,6 @@ class MatchFragment : Fragment() {
      * for more information.
      */
     interface OnMatchFragmentListener {
-        // TODO: Update argument type and name
         fun OnMatchFragmentListener(uri: Uri)
     }
 

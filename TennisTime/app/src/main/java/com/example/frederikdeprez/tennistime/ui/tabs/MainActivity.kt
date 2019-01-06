@@ -57,22 +57,17 @@ class MainActivity : AppCompatActivity(), PlayerFragment.OnPlayerFragmentListene
     }
 
     override fun OnPlayerFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun OnTennisclubsFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun OnMatchFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun OnPlayerAvailabilityFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun OnPlayerContactFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
