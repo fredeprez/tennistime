@@ -1,6 +1,8 @@
 package com.example.frederikdeprez.tennistime.ui.player
 
+import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +17,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.frederikdeprez.tennistime.R
 import com.example.frederikdeprez.tennistime.databinding.FragmentPlayerBinding
 import com.example.frederikdeprez.tennistime.ui.viewmodels.PlayerViewModel
+import com.example.frederikdeprez.tennistime.util.Constants
+import com.example.frederikdeprez.tennistime.util.Constants.Companion.PREFS_KEY
 import kotlinx.android.synthetic.main.fragment_player.*
 
 /**
@@ -31,9 +35,11 @@ class PlayerFragment : Fragment() {
     private val tabTitles = arrayListOf<String>("Available", "Contact")
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentPlayerBinding
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences = context!!.getSharedPreferences(PREFS_KEY, Activity.MODE_PRIVATE)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +57,7 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setName()
         player_viewpager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment {
                 when(position) {
@@ -76,10 +83,16 @@ class PlayerFragment : Fragment() {
         tabs.setupWithViewPager(player_viewpager)
     }
 
-    override fun onStart() {
-        super.onStart()
-        playerViewModel.getPlayerName().value = "FRED"
-        Log.i("FRED", playerViewModel.getPlayerName().toString())
+    override fun onResume() {
+        super.onResume()
+        setName()
+    }
+    private fun setName() {
+        if(playerViewModel.mutablePlayer.value != null) {
+            playerViewModel.getPlayerName().value = playerViewModel.mutablePlayer.value!!.name
+        } else {
+            playerViewModel.getPlayerName().value = sharedPreferences.getString("name", "")
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

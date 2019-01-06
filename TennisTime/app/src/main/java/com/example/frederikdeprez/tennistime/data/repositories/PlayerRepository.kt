@@ -80,7 +80,7 @@ class PlayerRepository @Inject constructor(private val playerDataDao: PlayerData
             PlayerDTO.toPlayer(it)
         }.doOnSuccess {
             doAsync {
-                playerDataDao.changePlayer(it)
+                playerDataDao.changePlayer(player)
             }
         }
     }

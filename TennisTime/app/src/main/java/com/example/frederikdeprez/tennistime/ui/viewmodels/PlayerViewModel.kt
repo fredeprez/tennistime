@@ -69,6 +69,7 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
             playerRepository.changePlayer(tennisclubId, playerId, player)
                     .subscribe({
                         _mutablePlayer.value = it
+                        sharedPreferences.edit().putString("name", it.name).apply()
                     }, {
                         Log.i("FREDEX", it.toString())
                     })
