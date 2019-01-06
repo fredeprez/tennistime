@@ -14,7 +14,7 @@ import io.reactivex.Single
  * @see [DataModule]
  */
 @Dao
-interface PlayerDataDao {
+interface PlayerDataDao: BaseDAO<Player> {
 
     /**
      * Get all the [Player] objects saved in the database where the [Player.tennisclubId] =
