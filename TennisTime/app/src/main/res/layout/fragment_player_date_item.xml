@@ -24,14 +24,21 @@
                 android:id="@+id/tennisclubname_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|start"
+                android:layout_weight="0.8"
                 android:text="@{tennisclub.name}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_weight="0.1"
+                android:text="id: " />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tennisclubid_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
+                android:layout_weight="0.1"
                 android:text="@{tennisclub.tennisclubId}" />
 
 

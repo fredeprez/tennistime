@@ -126,17 +126,17 @@
                     android:inputType="phone"
                     android:hint="@string/phone"/>
             </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_checked_40dp"
-                android:backgroundTint="@color/white"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/action_addperson"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_checked"/>
 
 </FrameLayout>

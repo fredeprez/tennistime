@@ -11,10 +11,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.frederikdeprez.tennistime.R
+import com.example.frederikdeprez.tennistime.data.Tennisclub
+import com.example.frederikdeprez.tennistime.databinding.FragmentPlayerAvailabilityBinding
+import com.example.frederikdeprez.tennistime.databinding.FragmentPlayerDateItemBinding
+import com.example.frederikdeprez.tennistime.ui.viewmodels.TennisclubsViewModel
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_player_availability.*
 import kotlinx.android.synthetic.main.fragment_player_date_item.view.*
@@ -32,11 +39,9 @@ import java.util.*
  */
 class PlayerAvailabilityFragment : Fragment() {
     private var listener: OnPlayerAvailabilityFragmentListener? = null
-    /**
-     *  List containing the availabilities of the player
-     */
-
-    private var availabilities: List<String>? = null
+    private lateinit var tennisclubsViewModel: TennisclubsViewModel
+    private lateinit var binding: FragmentPlayerAvailabilityBinding
+    private lateinit var adapter: TennisclubsIdRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,35 +49,33 @@ class PlayerAvailabilityFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_player_availability, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_player_availability, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        activity?.let {
+            tennisclubsViewModel = ViewModelProviders
+                    .of(it).get(TennisclubsViewModel::class.java)
+        }
+        adapter = TennisclubsIdRecyclerViewAdapter()
+        adapter.setHasStableIds(true)
+        binding.datesRecyclerview.apply {
+            layoutManager = LinearLayoutManager(this@PlayerAvailabilityFragment.context)
+            adapter = this@PlayerAvailabilityFragment.adapter
+        }
+        setupCallbacks()
+    }
+
+    private fun setupCallbacks() {
+        tennisclubsViewModel.tennisclubList.observe(this,
+                Observer { list -> adapter.onDataSetChange(list) })
     }
 
     override fun onStart() {
         super.onStart()
-        availabilities = createAvailabilities()
-        dates_recyclerview.adapter = DateItemRecyclerViewAdapter(availabilities!!)
-        dates_recyclerview.layoutManager = LinearLayoutManager(context)
-    }
-
-    private fun createAvailabilities(): List<String> {
-        val availabilityList = mutableListOf<String>()
-        availabilityList.add("start1")
-        availabilityList.add("end1")
-        availabilityList.add("start2")
-        availabilityList.add("end2")
-        availabilityList.add("start3")
-        availabilityList.add("end3")
-        availabilityList.add("start4")
-        availabilityList.add("end4")
-        availabilityList.add("start5")
-        availabilityList.add("end5")
-        return availabilityList
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.OnPlayerAvailabilityFragmentListener(uri)
     }
 
     override fun onAttach(context: Context) {
@@ -105,22 +108,32 @@ class PlayerAvailabilityFragment : Fragment() {
         fun OnPlayerAvailabilityFragmentListener(uri: Uri)
     }
 
-    class DateItemRecyclerViewAdapter(private val availabilities: List<String>): RecyclerView.Adapter<DateItemRecyclerViewAdapter.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateItemRecyclerViewAdapter.ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_player_date_item, parent, false)
-            return ViewHolder(view)
+    class TennisclubsIdRecyclerViewAdapter: RecyclerView.Adapter<TennisclubsIdRecyclerViewAdapter.ViewHolder>() {
+        private var tennisclubs: List<Tennisclub> = listOf()
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TennisclubsIdRecyclerViewAdapter.ViewHolder {
+            val binding: FragmentPlayerDateItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.fragment_player_date_item, parent, false)
+            return ViewHolder(binding)
         }
 
         override fun getItemCount(): Int {
-            return ((availabilities.size + 1)/2)
+            return tennisclubs.size
         }
 
-        override fun onBindViewHolder(holder: DateItemRecyclerViewAdapter.ViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: TennisclubsIdRecyclerViewAdapter.ViewHolder, position: Int) {
+            holder.bind(tennisclubs[position])
         }
 
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val startDate: TextInputEditText = view.start_date_edit
-            val endDate: TextInputEditText = view.end_date_edit
+        fun onDataSetChange(tennisclubList: List<Tennisclub>) {
+            tennisclubs = tennisclubList
+            notifyDataSetChanged()
+        }
+
+        inner class ViewHolder(private val binding: FragmentPlayerDateItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(tennisclub: Tennisclub) {
+                binding.tennisclub = tennisclub
+            }
         }
     }
 
