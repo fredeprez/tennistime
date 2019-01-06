@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), PlayerFragment.OnPlayerFragmentListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loadFragment(PlayerFragment.newInstance())
     }
 
     override fun onStart() {
