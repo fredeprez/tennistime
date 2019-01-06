@@ -20,6 +20,10 @@ Run the project on a virtual emulator you created with Android Studio or connect
 
 ### Demo
 
+![alt text](https://github.com/HoGentTIN/native-apps-1-android-creative-app-fredeprez/blob/feature/tweaks/Demo_images/tennisclub_ids.png)
+![alt text](https://github.com/HoGentTIN/native-apps-1-android-creative-app-fredeprez/blob/feature/tweaks/Demo_images/contact_fragment.png)
+![alt text](https://github.com/HoGentTIN/native-apps-1-android-creative-app-fredeprez/blob/feature/tweaks/Demo_images/tennisclubs_fragment.png)
+![alt text](https://github.com/HoGentTIN/native-apps-1-android-creative-app-fredeprez/blob/feature/tweaks/Demo_images/match_fragment.png)
 
 
 ## Authors
