@@ -17,5 +17,13 @@ import com.example.frederikdeprez.tennistime.data.Tennisclub
 
 abstract class AppDatabase {
 
+    /**
+     * Defines the DAO used to operate on [Tennisclub] such as insert all, create
+     */
+    abstract fun tennisclubDataDao(): TennisclubDataDao
 
+    /**
+     * Defines the DAO used to operate on [Player] such as insert all, create
+     */
+    abstract fun playerDataDao(): PlayerDataDao
 }
