@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.fragment_player.*
  */
 class PlayerFragment : Fragment() {
     private var listener: OnPlayerFragmentListener? = null
-    private val tabTitles = arrayListOf<String>("Available", "Contact")
+    private val tabTitles = arrayListOf<String>("Tennisclub IDs", "Contact")
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var sharedPreferences: SharedPreferences
