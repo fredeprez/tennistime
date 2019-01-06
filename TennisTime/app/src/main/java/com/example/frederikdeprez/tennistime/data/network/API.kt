@@ -37,17 +37,17 @@ interface API {
      * Get specific [Player] from [Tennisclub]
      */
     @GET("api/tennisclub/{tennisclubId}/player/{playerId}")
-    fun getPlayerFromTennisclub(@Path("tennisclubId") tennisclubId: String, @Path("playerId") playerId: String): Single<Player>
+    fun getPlayerFromTennisclub(@Path("tennisclubId") tennisclubId: String, @Path("playerId") playerId: String): Single<PlayerDTO>
 
     /**
      * Register new [Player] in a [Tennisclub]
      */
     @POST("api/tennisclub/{tennisclubId}/player")
-    fun registerNewPlayerInTennisclub(@Path("tennisclubId") tennisclubId: String, @Body player: Player): Single<Player>
+    fun registerNewPlayerInTennisclub(@Path("tennisclubId") tennisclubId: String, @Body player: Player): Single<PlayerDTO>
 
     /**
      * Change properties from specific (id) player in a specific tennisclub
      */
     @PUT("api/tennisclub/{tennisclubId}/player/{playerId}")
-    fun changePlayer(@Path("tennisclubId") tennisclubId: String, @Path("playerId") playerId: String, @Body player: Player): Single<Player>
+    fun changePlayer(@Path("tennisclubId") tennisclubId: String, @Path("playerId") playerId: String, @Body player: Player): Single<PlayerDTO>
 }
