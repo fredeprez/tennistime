@@ -2,6 +2,7 @@ package com.example.frederikdeprez.tennistime.data.db
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Update
 import com.example.frederikdeprez.tennistime.data.Player
 import io.reactivex.Single
 
@@ -41,4 +42,25 @@ interface PlayerDataDao: BaseDAO<Player> {
      */
     @Query("select count(*) from players")
     fun getRowCount(): Int
+
+
+    /**
+     * Get the [Player] objects saved in the database where the [Player.tennisclubId] =
+     * @param tennisclubId
+     * @param playerId
+     *
+     * @return Observable of [Player] object in the database
+     */
+    @Query("select * from players where playerId = :playerId")
+    fun getPlayerFromTennisclub(playerId: String): Single<Player>
+
+    /**
+     * Update the [Player] in the database
+     * @param player
+     *
+     * @return Observable of [Player] object from the database
+     */
+    @Update
+    fun changePlayer(player: Player)
+
 }

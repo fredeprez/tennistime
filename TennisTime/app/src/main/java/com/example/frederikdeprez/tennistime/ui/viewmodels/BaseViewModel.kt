@@ -1,5 +1,6 @@
 package com.example.frederikdeprez.tennistime.ui.viewmodels
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import com.example.frederikdeprez.tennistime.Application
 import com.example.frederikdeprez.tennistime.data.repositories.PlayerRepository
@@ -18,6 +19,9 @@ abstract class BaseViewModel: ViewModel() {
 
     @Inject
     lateinit var playerRepository: PlayerRepository
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     init {
         Application.appComponent.inject(this)

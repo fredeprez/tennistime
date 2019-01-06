@@ -54,26 +54,34 @@ class PlayerRepository @Inject constructor(private val playerDataDao: PlayerData
      * Get [Player] from [API] from specific [Tennisclub]
      */
     fun getPlayerFromTennisclub(tennisclubId: String, playerId: String): Single<Player> {
-        return api.getPlayerFromTennisclub(tennisclubId, playerId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
-            Log.i("FREDSON", it.toString())
-        }.doOnError {
-            Log.i("FRED_EX", it.toString())
+        return if (playerDataDao.getRowCount() <= 0) {
+            api.getPlayerFromTennisclub(tennisclubId, playerId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).map { it ->
+                // Convert PlayerDTO to Player
+                PlayerDTO.toPlayer(it)
+            }
+        } else {
+            // Get all players belonging to tennisclub from database
+            playerDataDao.getPlayerFromTennisclub(playerId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
         }
     }
 
     fun registerNewPlayerInTennisclub(tennisclubId: String, player: Player): Single<Player> {
-        return api.registerNewPlayerInTennisclub(tennisclubId, player).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess {
-            Log.i("FREDSON", it.toString())
-        }.doOnError {
-            Log.i("FRED_EX", it.toString())
+        return api.registerNewPlayerInTennisclub(tennisclubId, player).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).map {it ->
+            PlayerDTO.toPlayer(it)
+        }.doOnSuccess {
+            doAsync {
+                playerDataDao.createOne(it)
+            }
         }
     }
 
     fun changePlayer(tennisclubId: String, playerId: String, player: Player): Single<Player> {
-        return api.changePlayer(tennisclubId, playerId, player).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).doOnSuccess{
-            Log.i("FREDSON", it.toString())
-        }.doOnError {
-            Log.i("FRED_EX", it.toString())
+        return api.changePlayer(tennisclubId, playerId, player).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).map{it ->
+            PlayerDTO.toPlayer(it)
+        }.doOnSuccess {
+            doAsync {
+                playerDataDao.changePlayer(player)
+            }
         }
     }
 
