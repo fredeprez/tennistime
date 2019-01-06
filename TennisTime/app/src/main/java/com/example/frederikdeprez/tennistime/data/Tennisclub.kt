@@ -24,7 +24,7 @@ data class Tennisclub(
 ) {
 
     @PrimaryKey(autoGenerate = true)
-    var databaseId: Int = 0
+    var tennisclubDatabaseId: Int = 0
 
     companion object {
         /**
