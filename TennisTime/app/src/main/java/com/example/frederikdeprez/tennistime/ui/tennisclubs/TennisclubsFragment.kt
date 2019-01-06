@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -23,6 +24,7 @@ import com.example.frederikdeprez.tennistime.ui.match.MatchFragment
 import com.example.frederikdeprez.tennistime.ui.viewmodels.TennisclubsViewModel
 import kotlinx.android.synthetic.main.fragment_tennisclub_item.view.*
 import kotlinx.android.synthetic.main.fragment_tennisclubs.*
+import org.jetbrains.anko.appcompat.v7.coroutines.onQueryTextListener
 
 /**
  * A simple [Fragment] subclass.
@@ -63,6 +65,15 @@ class TennisclubsFragment : Fragment() {
             layoutManager = LinearLayoutManager(this@TennisclubsFragment.context)
             adapter = this@TennisclubsFragment.adapter
         }
+        binding.tcSearchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                tennisclubsViewModel.filter(newText)
+                return true
+            }
+        })
         setupCallbacks()
     }
 
@@ -173,4 +184,7 @@ class TennisclubsFragment : Fragment() {
 
 interface TennisclubListAdapterActions {
     fun select(tennisclub: Tennisclub)
+}
+interface TennisclubsSearchActions {
+    fun filter(query: String?)
 }

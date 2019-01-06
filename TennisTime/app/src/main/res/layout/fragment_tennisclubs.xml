@@ -3,9 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <data class="FragmentTennisclubsBinding">
+        <variable
+            name="query"
+            type="String" />
 
-
+        <variable
+            name="actions"
+            type="com.example.frederikdeprez.tennistime.ui.tennisclubs.TennisclubsSearchActions" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
