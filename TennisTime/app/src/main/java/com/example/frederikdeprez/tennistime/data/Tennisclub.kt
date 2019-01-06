@@ -2,6 +2,7 @@ package com.example.frederikdeprez.tennistime.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.frederikdeprez.tennistime.data.network.response.TennisclubDTO
 
 /**
  * This class is used to convert a [TennisclubDTO] coming from the backend server to a [Tennisclub].
@@ -12,7 +13,7 @@ import androidx.room.PrimaryKey
  * @param location The location of the tennisclub
  * @param vtvnumber The vtvnumber of the tennisclub
  *
- * @constructor Creates a new tennisclub with the given params
+ * @constructor Creates a new [Tennisclub] with the given params
  */
 @Entity(tableName = "tennisclubs")
 data class Tennisclub(
@@ -34,8 +35,7 @@ data class Tennisclub(
          * @return the [TennisclubDTO] of the given [Tennisclub]
          */
         fun toTennisclubDTO(tennisclub: Tennisclub): TennisclubDTO {
-            val dto = TennisclubDTO(tennisclub.categoryName, tennisclub.categoryDescription, tennisclub.colorCode)
-            dto.backendId = tennisclub.backendId
+            val dto = TennisclubDTO(tennisclub.tennisclubId, tennisclub.name, tennisclub.location, tennisclub.vtvnumber)
             return dto
         }
     }
