@@ -19,7 +19,18 @@ class MatchViewModel(private val tennisclubId: String): BaseViewModel(), MatchLi
     val selectedPlayer: LiveData<Event<Player>> = _selectedPlayer
 
     init {
+        getAllPlayers()
         getAllPlayersFromTennisclub(tennisclubId)
+    }
+
+    fun getAllPlayers() {
+        playerRepository.getAllPlayers()
+                .subscribe({
+                    _playerList.value = it
+                }, {
+                    Log.i("FREDEX", it.toString())
+                })
+                .addTo(compositeDisposable)
     }
 
     fun getAllPlayersFromTennisclub(tennisclubId: String) {

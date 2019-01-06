@@ -22,10 +22,16 @@ interface API {
     fun getAllTennisclubs(): Single<List<TennisclubDTO>>
 
     /**
+     *  Get all [Player]
+     */
+    @GET("api/player")
+    fun getAllPlayers(): Single<List<PlayerDTO>>
+
+    /**
      *  Get all [Player] from specific [Tennisclub]
      */
     @GET("api/tennisclub/{tennisclubId}/player")
-    fun getAllPlayersFromTennisclub(@Path("tennisclubId") tennisclubId: String): Single<List<Player>>
+    fun getAllPlayersFromTennisclub(@Path("tennisclubId") tennisclubId: String): Single<List<PlayerDTO>>
 
     /**
      * Get specific [Player] from [Tennisclub]

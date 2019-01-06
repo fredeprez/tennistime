@@ -19,7 +19,7 @@ class TennisclubRepository @Inject constructor(private val tennisclubDataDao: Te
         // Check if database table tennisclubs is empty
         return if (tennisclubDataDao.getRowCount() <= 0) {
             api.getAllTennisclubs().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).map {
-                //convert TennisclubDTO to Tennisclub
+                // Convert TennisclubDTO to Tennisclub
                 it.map { item -> TennisclubDTO.toTennisclub(item) }
             }.doOnSuccess {
                 doAsync {
