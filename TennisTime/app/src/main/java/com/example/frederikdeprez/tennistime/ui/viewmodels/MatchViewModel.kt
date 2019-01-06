@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.frederikdeprez.tennistime.data.Player
 import com.example.frederikdeprez.tennistime.ui.match.MatchListAdapterActions
+import com.example.frederikdeprez.tennistime.ui.match.MatchSearchActions
 import com.example.frederikdeprez.tennistime.util.Event
 import io.reactivex.rxkotlin.addTo
 
-class MatchViewModel(): BaseViewModel(), MatchListAdapterActions {
+class MatchViewModel(): BaseViewModel(), MatchListAdapterActions, MatchSearchActions {
 
+    private lateinit var _repoPlayers: List<Player>
     private val _playerList = MutableLiveData<List<Player>>()
     val playerList: LiveData<List<Player>> = _playerList
 
@@ -25,6 +27,7 @@ class MatchViewModel(): BaseViewModel(), MatchListAdapterActions {
     fun getAllPlayers() {
         playerRepository.getAllPlayers()
                 .subscribe({
+                    _repoPlayers = it
                     _playerList.value = it
                 }, {
                 })
@@ -38,6 +41,18 @@ class MatchViewModel(): BaseViewModel(), MatchListAdapterActions {
                 }, {
                 })
                 .addTo(compositeDisposable)
+    }
+
+    override fun filter(query: String?) {
+        with(query ?: "") {
+            if (!this.isEmpty()) {
+                val pattern = this.toLowerCase().trim()
+                _playerList.value = _repoPlayers.filter { player ->
+                    player.name.toLowerCase().contains(pattern)
+                }
+            } else
+                _playerList.value = _repoPlayers
+        }
     }
 
     override fun pressButton(player: Player) {

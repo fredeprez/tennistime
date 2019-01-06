@@ -27,6 +27,7 @@ import android.widget.FrameLayout
 import android.opengl.ETC1.getWidth
 import android.os.Build
 import android.util.Log
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -117,6 +118,15 @@ class MatchFragment : Fragment() {
                 emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Afspraak om te tennissen");
                 emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Beste " + player.name + " Ik heb u gevonden via de TennisTime app en zou graag afspreken om te tennissen.");
                 startActivity(emailIntent)
+            }
+        })
+        binding.matchSearchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                matchViewModel.filter(newText)
+                return true
             }
         })
         setupCallbacks()
@@ -317,5 +327,9 @@ class MatchFragment : Fragment() {
 
 interface MatchListAdapterActions {
     fun pressButton(player: Player)
+}
+
+interface MatchSearchActions {
+    fun filter(query: String?)
 }
 
