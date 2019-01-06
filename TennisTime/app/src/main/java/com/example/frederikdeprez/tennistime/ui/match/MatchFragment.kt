@@ -154,34 +154,34 @@ class MatchFragment : Fragment() {
             parameters.height = match_imageView.height
             view2.match_linearView.layoutParams = parameters
 
-            val anim = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewAnimationUtils.createCircularReveal(view2.match_linearView, x, y, 0f, hypotenuse.toFloat())
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val anim = ViewAnimationUtils.createCircularReveal(view2.match_linearView, x, y, 0f, hypotenuse.toFloat())
+                anim.duration = 500
+
+                anim.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animator: Animator) {
+
+                    }
+
+                    override fun onAnimationEnd(animator: Animator) {
+                        view2.match_layoutButtons.visibility = (View.VISIBLE)
+                        view2.match_layoutButtons.startAnimation(alphaAnimation)
+                    }
+
+                    override fun onAnimationCancel(animator: Animator) {
+
+                    }
+
+                    override fun onAnimationRepeat(animator: Animator) {
+
+                    }
+                })
+
+                view2.match_linearView.visibility = View.VISIBLE
+                anim.start()
             } else {
-                TODO("VERSION.SDK_INT < LOLLIPOP") // Todo and make linearlayout visible without effect
+                view2.match_linearView.visibility = View.VISIBLE
             }
-            anim.duration = 500
-
-            anim.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animator: Animator) {
-
-                }
-
-                override fun onAnimationEnd(animator: Animator) {
-                    view2.match_layoutButtons.visibility = (View.VISIBLE)
-                    view2.match_layoutButtons.startAnimation(alphaAnimation)
-                }
-
-                override fun onAnimationCancel(animator: Animator) {
-
-                }
-
-                override fun onAnimationRepeat(animator: Animator) {
-
-                }
-            })
-
-            view2.match_linearView.visibility = View.VISIBLE
-            anim.start()
 
             flag = false
         } else {
@@ -189,33 +189,33 @@ class MatchFragment : Fragment() {
             view.launch_contact_animation.setBackgroundResource(R.drawable.rounded_button)
             view.launch_contact_animation.setImageResource(R.drawable.ic_more)
 
-            val anim = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewAnimationUtils.createCircularReveal(view2.match_linearView, x, y, hypotenuse.toFloat(), 0f)
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val anim = ViewAnimationUtils.createCircularReveal(view2.match_linearView, x, y, hypotenuse.toFloat(), 0f)
+                anim.duration = 400
+
+                anim.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(animator: Animator) {
+
+                    }
+
+                    override fun onAnimationEnd(animator: Animator) {
+                        view2.match_linearView.visibility = View.GONE
+                        view2.match_layoutButtons.visibility = (View.GONE)
+                    }
+
+                    override fun onAnimationCancel(animator: Animator) {
+
+                    }
+
+                    override fun onAnimationRepeat(animator: Animator) {
+
+                    }
+                })
+
+                anim.start()
             } else {
-                TODO("VERSION.SDK_INT < LOLLIPOP")
+                view2.match_linearView.visibility = View.GONE
             }
-            anim.duration = 400
-
-            anim.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animator: Animator) {
-
-                }
-
-                override fun onAnimationEnd(animator: Animator) {
-                    view2.match_linearView.visibility = View.GONE
-                    view2.match_layoutButtons.visibility = (View.GONE)
-                }
-
-                override fun onAnimationCancel(animator: Animator) {
-
-                }
-
-                override fun onAnimationRepeat(animator: Animator) {
-
-                }
-            })
-
-            anim.start()
             flag = true
         }
     }
