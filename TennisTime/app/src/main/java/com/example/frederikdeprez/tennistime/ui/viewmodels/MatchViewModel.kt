@@ -10,7 +10,7 @@ import com.example.frederikdeprez.tennistime.ui.match.MatchListAdapterActions
 import com.example.frederikdeprez.tennistime.util.Event
 import io.reactivex.rxkotlin.addTo
 
-class MatchViewModel(private val tennisclubId: String): BaseViewModel(), MatchListAdapterActions {
+class MatchViewModel(): BaseViewModel(), MatchListAdapterActions {
 
     private val _playerList = MutableLiveData<List<Player>>()
     val playerList: LiveData<List<Player>> = _playerList
@@ -20,7 +20,6 @@ class MatchViewModel(private val tennisclubId: String): BaseViewModel(), MatchLi
 
     init {
         getAllPlayers()
-        getAllPlayersFromTennisclub(tennisclubId)
     }
 
     fun getAllPlayers() {
@@ -48,10 +47,10 @@ class MatchViewModel(private val tennisclubId: String): BaseViewModel(), MatchLi
     }
 }
 
-class MyViewModelFactory(
-        private val tennisclubId: String
-): ViewModelProvider.NewInstanceFactory() {
-    override fun <T: ViewModel> create(modelClass:Class<T>): T {
-        return MatchViewModel(tennisclubId) as T
-    }
-}
+//class MyViewModelFactory(
+//        private val tennisclubId: String
+//): ViewModelProvider.NewInstanceFactory() {
+//    override fun <T: ViewModel> create(modelClass:Class<T>): T {
+//        return MatchViewModel(tennisclubId) as T
+//    }
+//}
