@@ -61,7 +61,7 @@ class PlayerRepository @Inject constructor(private val playerDataDao: PlayerData
             }
         } else {
             // Get all players belonging to tennisclub from database
-            playerDataDao.getPlayerFromTennisclub(tennisclubId, playerId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+            playerDataDao.getPlayerFromTennisclub(playerId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
         }
     }
 

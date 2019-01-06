@@ -1,6 +1,7 @@
 package com.example.frederikdeprez.tennistime.ui.player
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -50,6 +51,7 @@ class PlayerContactFragment : Fragment() {
         }
         if(playerViewModel.mutablePlayer.value != null) {
             player = playerViewModel.mutablePlayer.value!!
+            Log.i("FREDSON", player.name)
         } else {
             player = Player("","","","","","","","")
         }

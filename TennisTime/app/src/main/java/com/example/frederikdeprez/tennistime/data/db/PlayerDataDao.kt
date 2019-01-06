@@ -51,8 +51,8 @@ interface PlayerDataDao: BaseDAO<Player> {
      *
      * @return Observable of [Player] object in the database
      */
-    @Query("select * from players where tennisclubId = :tennisclubId AND playerId = :playerId")
-    fun getPlayerFromTennisclub(tennisclubId: String, playerId: String): Single<Player>
+    @Query("select * from players where playerId = :playerId")
+    fun getPlayerFromTennisclub(playerId: String): Single<Player>
 
     /**
      * Update the [Player] in the database

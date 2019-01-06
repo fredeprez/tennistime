@@ -1,5 +1,6 @@
 package com.example.frederikdeprez.tennistime.ui.viewmodels
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.frederikdeprez.tennistime.Application
 import com.example.frederikdeprez.tennistime.data.Player
 import com.example.frederikdeprez.tennistime.ui.player.PlayerFragmentActions
+import com.example.frederikdeprez.tennistime.util.Constants.Companion.PREFS_KEY
 import io.reactivex.rxkotlin.addTo
 
 class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
@@ -25,15 +27,23 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
     var mutablePlayer: LiveData<Player> = _mutablePlayer
 
     init {
-        if(mutablePlayer.value != null) {
-            getPlayerFromTennisclub(mutablePlayer.value!!.tennisclubId, mutablePlayer.value!!.playerId)
+        getAllPlayersToFillDatabase()
+        if(sharedPreferences.getString("playerId", "0") != "0" && sharedPreferences.getString("tennisclubId", "0") != "0") {
+            val playerId: String = sharedPreferences.getString("playerId", "0")
+            val tennisclubId: String = sharedPreferences.getString("tennisclubId", "0")
+            getPlayerFromTennisclub(tennisclubId, playerId)
         }
+    }
+
+    private fun getAllPlayersToFillDatabase() {
+        playerRepository.getAllPlayers().subscribe().addTo(compositeDisposable)
     }
 
     fun getPlayerFromTennisclub(tennisclubId: String, playerId: String) {
         playerRepository.getPlayerFromTennisclub(tennisclubId, playerId)
                 .subscribe({
                     _mutablePlayer.value = it
+                    sharedPreferences.edit().putString("name", it.name).apply()
                 }, {
                     Log.i("FREDEX", it.toString())
                 })
@@ -45,6 +55,8 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
             playerRepository.registerNewPlayerInTennisclub(tennisclubId, player)
                     .subscribe({
                         _mutablePlayer.value = it
+                        sharedPreferences.edit().putString("playerId", it.playerId).apply()
+                        sharedPreferences.edit().putString("tennisclubId", it.tennisclubId).apply()
                     }, {
                         Log.i("FREDEX", it.toString())
                     })
