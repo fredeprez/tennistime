@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), PlayerFragment.OnPlayerFragmentListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loadFragment(PlayerFragment.newInstance())
     }
 
     override fun onStart() {
@@ -57,22 +58,17 @@ class MainActivity : AppCompatActivity(), PlayerFragment.OnPlayerFragmentListene
     }
 
     override fun OnPlayerFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun OnTennisclubsFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun OnMatchFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun OnPlayerAvailabilityFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun OnPlayerContactFragmentListener(uri: Uri) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

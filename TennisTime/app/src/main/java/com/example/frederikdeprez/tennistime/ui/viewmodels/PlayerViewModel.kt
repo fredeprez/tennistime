@@ -45,36 +45,42 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
                     _mutablePlayer.value = it
                     sharedPreferences.edit().putString("name", it.name).apply()
                 }, {
-                    Log.i("FREDEX", it.toString())
                 })
                 .addTo(compositeDisposable)
     }
 
     override fun registerNewPlayerInTennisclub(tennisclubId: String, player: Player) {
-        if(isValid(player) && sharedPreferences.getString("playerId", "0") == "0") {
+        if(isValid(player) && exceedsTennisclubsSize(tennisclubId) && sharedPreferences.getString("playerId", "0") == "0") {
             playerRepository.registerNewPlayerInTennisclub(tennisclubId, player)
                     .subscribe({
                         _mutablePlayer.value = it
                         sharedPreferences.edit().putString("playerId", it.playerId).apply()
                         sharedPreferences.edit().putString("tennisclubId", it.tennisclubId).apply()
                     }, {
-                        Log.i("FREDEX", it.toString())
                     })
                     .addTo(compositeDisposable)
         }
     }
 
     override fun changePlayer(tennisclubId: String, playerId: String, player: Player) {
-        if(isValid(player)) {
+        if(isValid(player) && exceedsTennisclubsSize(tennisclubId)) {
             playerRepository.changePlayer(tennisclubId, playerId, player)
                     .subscribe({
                         _mutablePlayer.value = it
                         sharedPreferences.edit().putString("name", it.name).apply()
                     }, {
-                        Log.i("FREDEX", it.toString())
                     })
                     .addTo(compositeDisposable)
         }
+    }
+
+    private fun exceedsTennisclubsSize(tennisclubId: String): Boolean {
+        val tennisclubIdInt: Int = tennisclubId.toInt()
+        val tennisclubsSize: Int = sharedPreferences.getInt("tennisclubs_size", 5)
+        if(tennisclubIdInt > tennisclubsSize) {
+            return false
+        }
+        return true
     }
 
     private fun isValid(player: Player): Boolean {

@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:text="@={player.tennisclubId}"
-                    android:hint="@string/tennisclub"/>
+                    android:hint="@string/tennisclubID"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
-                    android:layout_weight="0.8"
+                    android:layout_weight="0.5"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -128,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="0.5"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 

@@ -51,7 +51,6 @@ class PlayerContactFragment : Fragment() {
         }
         if(playerViewModel.mutablePlayer.value != null) {
             player = playerViewModel.mutablePlayer.value!!
-            Log.i("FREDSON", player.name)
         } else {
             player = Player("","","","","","","","")
         }
@@ -76,7 +75,6 @@ class PlayerContactFragment : Fragment() {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.OnPlayerContactFragmentListener(uri)
     }
@@ -107,7 +105,6 @@ class PlayerContactFragment : Fragment() {
      * for more information.
      */
     interface OnPlayerContactFragmentListener {
-        // TODO: Update argument type and name
         fun OnPlayerContactFragmentListener(uri: Uri)
     }
 
@@ -118,7 +115,6 @@ class PlayerContactFragment : Fragment() {
          *
          * @return A new instance of fragment PlayerContactFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
                 PlayerContactFragment().apply {

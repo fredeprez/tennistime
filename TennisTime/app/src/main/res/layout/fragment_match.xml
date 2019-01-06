@@ -3,8 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
+    <data class="FragmentMatchBinding">
+        <variable
+            name="query"
+            type="String" />
 
+        <variable
+            name="actions"
+            type="com.example.frederikdeprez.tennistime.ui.match.MatchSearchActions" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

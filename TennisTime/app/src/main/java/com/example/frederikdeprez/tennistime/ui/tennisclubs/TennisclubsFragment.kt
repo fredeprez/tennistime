@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -23,6 +24,7 @@ import com.example.frederikdeprez.tennistime.ui.match.MatchFragment
 import com.example.frederikdeprez.tennistime.ui.viewmodels.TennisclubsViewModel
 import kotlinx.android.synthetic.main.fragment_tennisclub_item.view.*
 import kotlinx.android.synthetic.main.fragment_tennisclubs.*
+import org.jetbrains.anko.appcompat.v7.coroutines.onQueryTextListener
 
 /**
  * A simple [Fragment] subclass.
@@ -63,22 +65,28 @@ class TennisclubsFragment : Fragment() {
             layoutManager = LinearLayoutManager(this@TennisclubsFragment.context)
             adapter = this@TennisclubsFragment.adapter
         }
+        binding.tcSearchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                tennisclubsViewModel.filter(newText)
+                return true
+            }
+        })
         setupCallbacks()
     }
 
     private fun setupCallbacks() {
-        Log.i("FREDSON", "setupcallbacks1")
         tennisclubsViewModel.tennisclubList.observe(this,
                 Observer { list -> adapter.onDataSetChange(list) }
         )
-        Log.i("FREDSON", "setupcallbacks2")
         tennisclubsViewModel.selectedTennisclub.observe(this,
                 Observer { event -> event.getContentIfNotHandled()?.let { navigateToMatches(matchFragment) } }
         )
     }
 
     private fun navigateToMatches(fragment: Fragment) {
-        Log.i("FREDSON", "kan ik navigaten?")
         activity!!.supportFragmentManager.beginTransaction()
                 .replace(R.id.frame_container, fragment)
                 .addToBackStack(null)
@@ -91,7 +99,6 @@ class TennisclubsFragment : Fragment() {
 //        tennisclubs_recyclerview.layoutManager = LinearLayoutManager(context)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.OnTennisclubsFragmentListener(uri)
     }
@@ -122,7 +129,6 @@ class TennisclubsFragment : Fragment() {
      * for more information.
      */
     interface OnTennisclubsFragmentListener {
-        // TODO: Update argument type and name
         fun OnTennisclubsFragmentListener(uri: Uri)
     }
 
@@ -167,7 +173,6 @@ class TennisclubsFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment TennisclubsFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
                 TennisclubsFragment().apply {
@@ -179,4 +184,7 @@ class TennisclubsFragment : Fragment() {
 
 interface TennisclubListAdapterActions {
     fun select(tennisclub: Tennisclub)
+}
+interface TennisclubsSearchActions {
+    fun filter(query: String?)
 }

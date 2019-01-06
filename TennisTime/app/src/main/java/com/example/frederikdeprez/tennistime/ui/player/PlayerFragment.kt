@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.fragment_player.*
  */
 class PlayerFragment : Fragment() {
     private var listener: OnPlayerFragmentListener? = null
-    private val tabTitles = arrayListOf<String>("Available", "Contact")
+    private val tabTitles = arrayListOf<String>("Tennisclub IDs", "Contact")
     private lateinit var playerViewModel: PlayerViewModel
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var sharedPreferences: SharedPreferences
@@ -95,7 +95,6 @@ class PlayerFragment : Fragment() {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.OnPlayerFragmentListener(uri)
     }
@@ -126,7 +125,6 @@ class PlayerFragment : Fragment() {
      * for more information.
      */
     interface OnPlayerFragmentListener {
-        // TODO: Update argument type and name
         fun OnPlayerFragmentListener(uri: Uri)
     }
 
