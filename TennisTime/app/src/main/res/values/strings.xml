@@ -11,7 +11,7 @@
     <string name="name">name</string>
     <string name="phone">phone</string>
     <string name="mail">mail</string>
-    <string name="tennisclub">tennisclub</string>
+    <string name="tennisclub">tennisclub ID</string>
     <string name="vtvnumber">vtv_number</string>
     <string name="ranking">ranking</string>
     <string name="start">start</string>
