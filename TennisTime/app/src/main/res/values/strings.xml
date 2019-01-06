@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">TennisTime</string>
+    <string name="player">player</string>
+    <string name="match">match</string>
+    <string name="search">search</string>
+    <string name="tennisclubIDs">tennisclub IDs</string>
+    <string name="contact">contact</string>
+    <string name="name">name</string>
+    <string name="phone">phone</string>
+    <string name="mail">mail</string>
+    <string name="tennisclubID">tennisclub ID</string>
+    <string name="vtvnumber">vtv_number</string>
+    <string name="ranking">ranking</string>
+    <string name="start">start</string>
+    <string name="einde">end</string>
+    <string name="call">call</string>
+    <string name="id">id:</string>
+
 </resources>
