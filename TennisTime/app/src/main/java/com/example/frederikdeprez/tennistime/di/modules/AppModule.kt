@@ -32,4 +32,15 @@ class AppModule(private val application: Application) {
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(Constants.PREFS_KEY, Activity.MODE_PRIVATE)
     }
+
+    /**
+     * Provide a singleton of [Application]
+     *
+     * @return singleton of [Application]
+     */
+    @Provides
+    @Singleton
+    fun provideApplication(): Application {
+        return application
+    }
 }

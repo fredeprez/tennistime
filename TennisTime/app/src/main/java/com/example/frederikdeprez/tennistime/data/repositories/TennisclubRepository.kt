@@ -8,8 +8,9 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.doAsync
+import javax.inject.Inject
 
-class TennisclubRepository(private val tennisclubDataDao: TennisclubDataDao): InjectableRepository() {
+class TennisclubRepository @Inject constructor(private val tennisclubDataDao: TennisclubDataDao): InjectableRepository() {
 
     private lateinit var items: ArrayList<TennisclubDTO>
 

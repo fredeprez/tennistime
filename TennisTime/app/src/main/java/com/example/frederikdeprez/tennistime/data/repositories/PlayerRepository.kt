@@ -3,11 +3,13 @@ package com.example.frederikdeprez.tennistime.data.repositories
 import android.util.Log
 import com.example.frederikdeprez.tennistime.data.Player
 import com.example.frederikdeprez.tennistime.data.Tennisclub
+import com.example.frederikdeprez.tennistime.data.db.PlayerDataDao
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class PlayerRepository: InjectableRepository() {
+class PlayerRepository @Inject constructor(private val playerDataDao: PlayerDataDao): InjectableRepository() {
 
     /**
      * Get all the [Player] from [API] from specific [Tennisclub]
