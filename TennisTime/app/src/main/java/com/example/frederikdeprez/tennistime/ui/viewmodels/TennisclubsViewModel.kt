@@ -27,6 +27,7 @@ class TennisclubsViewModel: BaseViewModel(), TennisclubListAdapterActions {
         tennisclubRepository.getAllTennisClubs()
                 .subscribe({
                     _tennisclubList.value = it
+                    sharedPreferences.edit().putInt("tennisclubs_size", it.size)
                 }, {
                 })
                 .addTo(compositeDisposable)

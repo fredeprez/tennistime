@@ -50,7 +50,7 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
     }
 
     override fun registerNewPlayerInTennisclub(tennisclubId: String, player: Player) {
-        if(isValid(player) && sharedPreferences.getString("playerId", "0") == "0") {
+        if(isValid(player) && exceedsTennisclubsSize(tennisclubId) && sharedPreferences.getString("playerId", "0") == "0") {
             playerRepository.registerNewPlayerInTennisclub(tennisclubId, player)
                     .subscribe({
                         _mutablePlayer.value = it
@@ -63,7 +63,7 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
     }
 
     override fun changePlayer(tennisclubId: String, playerId: String, player: Player) {
-        if(isValid(player)) {
+        if(isValid(player) && exceedsTennisclubsSize(tennisclubId)) {
             playerRepository.changePlayer(tennisclubId, playerId, player)
                     .subscribe({
                         _mutablePlayer.value = it
@@ -72,6 +72,15 @@ class PlayerViewModel: BaseViewModel(), PlayerFragmentActions {
                     })
                     .addTo(compositeDisposable)
         }
+    }
+
+    private fun exceedsTennisclubsSize(tennisclubId: String): Boolean {
+        val tennisclubIdInt: Int = tennisclubId.toInt()
+        val tennisclubsSize: Int = sharedPreferences.getInt("tennisclubs_size", 5)
+        if(tennisclubIdInt > tennisclubsSize) {
+            return false
+        }
+        return true
     }
 
     private fun isValid(player: Player): Boolean {
